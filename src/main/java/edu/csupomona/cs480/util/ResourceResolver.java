@@ -23,4 +23,12 @@ public class ResourceResolver {
         }
         return file;
     }
+
+	public static File getProblemFile() {
+        File file = new File(BASE_DIR + "/" + "problem-map.json");
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        return file;
+    }
 }
