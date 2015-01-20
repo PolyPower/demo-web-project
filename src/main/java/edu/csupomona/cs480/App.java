@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import edu.csupomona.cs480.data.provider.FSUserManager;
 import edu.csupomona.cs480.data.provider.UserManager;
 
+import edu.csupomona.cs480.data.provider.FSProblemManager;
+import edu.csupomona.cs480.data.provider.ProblemManager;
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
@@ -24,6 +27,18 @@ public class App {
     public UserManager userManager() {
         UserManager userManager = new FSUserManager();
         return userManager;
+    }
+    
+    /**
+     * This is a good example of how Spring instantiates
+     * objects. The instances generated from this method
+     * will be used in this project, where the Autowired
+     * annotation is applied.
+     */
+    @Bean
+    public ProblemManager problemManager() {
+        ProblemManager problemManager = new FSProblemManager();
+        return problemManager;
     }
 
     /**
