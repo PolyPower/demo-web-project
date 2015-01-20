@@ -14,6 +14,9 @@ import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.provider.UserManager;
 
+import edu.csupomona.cs480.data.Problem;
+import edu.csupomona.cs480.data.provider.ProblemManager;
+
 
 /**
  * This is the controller used by Spring framework.
@@ -130,6 +133,76 @@ public class WebController {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("users", listAllUsers());
         return modelAndView;
+    }
+    
+    /********************************** Testing for Problems **********************************/
+    /**
+     * Below are all the methods that I am adding to work with displaying Problems.
+     */
+    
+    /**
+	 * When the class instance is annotated with
+	 * {@link Autowired}, it will be looking for the actual
+	 * instance from the defined beans.
+	 * <p>
+	 * In our project, all the beans are defined in
+	 * the {@link App} class.
+	 */
+    @Autowired
+    private ProblemManager problemManager;
+    
+    /**
+     * This is a simple example of how to use a data manager
+     * to retrieve the data and return it as an HTTP response.
+     * <p>
+     * Note, when it returns from the Spring, it will be
+     * automatically converted to JSON format.
+     * <p>
+     * Try it in your web browser:
+     * 	http://localhost:8080/cs480/problem/12709
+     */
+    @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.GET)
+    Problem getProblem(@PathVariable("problemId") String problemId) {
+    	Problem problem = problemManager.getProblem(problemId);
+        return problem;
+    }
+    
+    /**
+     * This is an example of sending an HTTP POST request to
+     * update a problem's information (or create the problem if 
+     * it doesn't exist yet).
+     *
+     * You can test this with a HTTP client by sending
+     *  http://localhost:8080/cs480/problem/12709
+     *  	==name=John major=CS==
+     *
+     * Note, the URL will not work directly in browser, because
+     * it is not a GET request. You need to use a tool such as
+     * curl.
+     *
+     * @param id
+     * @param name
+     * @param major
+     * @return
+     */
+    @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.POST)
+    Problem updateProblem(
+    		@PathVariable("problemId") String id,
+    		@RequestParam(value = "title", required = false) String title,
+    		@RequestParam("quarter") String quarter,
+    		@RequestParam("year") String year,
+    		@RequestParam("week") String week,
+    		@RequestParam("pdfUrl") String pdfUrl) {
+    	Problem problem = new Problem();
+    	problem.setId(id);
+    	// would like to change next 3 to one "setSession()" 
+    	problem.setTitle(title);
+    	problem.setQuarter(quarter);
+    	problem.setYear(year);
+    	problem.setWeek(week);
+    	problem.setPdfUrl(pdfUrl);
+    	problemManager.updateProblem(problem);
+    	return problem;
     }
 
 }
