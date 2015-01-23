@@ -14,9 +14,6 @@ import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.provider.UserManager;
 
-import edu.csupomona.cs480.data.Problem;
-import edu.csupomona.cs480.data.provider.ProblemManager;
-
 
 /**
  * This is the controller used by Spring framework.
@@ -52,7 +49,7 @@ public class WebController {
     	// You can replace this with other string,
     	// and run the application locally to check your changes
     	// with the URL: http://localhost:8080/
-        return "OK";
+        return "Hello World! Hetal";
     }
 
     /**
@@ -135,6 +132,13 @@ public class WebController {
         return modelAndView;
     }
     
+    @RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.GET)
+    ModelAndView getUsercodeSubmit() {
+        ModelAndView modelAndView = new ModelAndView("codeSubmit");
+       
+        return modelAndView;
+    }
+    
     /********************************** Testing for Problems **********************************/
     /**
      * Below are all the methods that I am adding to work with displaying Problems.
@@ -148,8 +152,8 @@ public class WebController {
 	 * In our project, all the beans are defined in
 	 * the {@link App} class.
 	 */
-    @Autowired
-    private ProblemManager problemManager;
+   // @Autowired
+   // private UserManager userManager;
     
     /**
      * This is a simple example of how to use a data manager
@@ -161,11 +165,11 @@ public class WebController {
      * Try it in your web browser:
      * 	http://localhost:8080/cs480/problem/12709
      */
-    @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.GET)
     Problem getProblem(@PathVariable("problemId") String problemId) {
     	Problem problem = problemManager.getProblem(problemId);
         return problem;
-    }
+    }*/
     
     /**
      * This is an example of sending an HTTP POST request to
@@ -185,7 +189,7 @@ public class WebController {
      * @param major
      * @return
      */
-    @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.POST)
+ /*   @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.POST)
     Problem updateProblem(
     		@PathVariable("problemId") String id,
     		@RequestParam(value = "title", required = false) String title,
@@ -203,6 +207,6 @@ public class WebController {
     	problem.setPdfUrl(pdfUrl);
     	problemManager.updateProblem(problem);
     	return problem;
-    }
+    } */
 
 }

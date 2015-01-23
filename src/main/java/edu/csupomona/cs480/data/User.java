@@ -8,6 +8,17 @@ import java.util.Date;
  */
 public class User {
 
+	private String filePath;
+	
+	public String getFilePath()
+	{
+		return filePath;
+	}
+	
+	public void setFilePath()
+	{
+		this.filePath = filePath;
+	}
 	/** The unique user Id */
     private String id;
     /** The unique user Id */

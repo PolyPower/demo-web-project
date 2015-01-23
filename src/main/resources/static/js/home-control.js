@@ -31,7 +31,32 @@ function deleteUser(userId) {
 				}
 			});
 }
+funtion submitCode()
+{
+	var file = $('#input_file').val();
+	
+		if(file)
+		{
+			$.ajax(
+					{
+						type: "POST",
+						url : "/cs480/codeSumit/",
+						data : { "fileName" : file },
+						success : function(result) {
+							location.reload();
+						},
+						error: function (jqXHR, exception) {
+							alert("Failed to add the user. Please check the inputs.");
+						}
+					});
+		} 
+		else {
+		alert("Invalid user Id");
+		}
+	}
 
+
+}
 function addUser() {
 
 	var userId = $('#input_id').val();
