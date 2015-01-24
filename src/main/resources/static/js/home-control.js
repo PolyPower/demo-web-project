@@ -31,16 +31,15 @@ function deleteUser(userId) {
 				}
 			});
 }
-funtion submitCode()
+function submitCode()
 {
-	var file = $('#input_file').val();
+	var file = $('#datafile').val();
 	
 		if(file)
 		{
-			$.ajax(
-					{
-						type: "POST",
-						url : "/cs480/codeSumit/",
+			$.ajax({
+						type: "GET",
+						url : "/cs480/codeSubmit/",
 						data : { "fileName" : file },
 						success : function(result) {
 							location.reload();
