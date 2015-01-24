@@ -90,7 +90,7 @@
     <form method="POST" action=" " name="submit">    
     	<p>	Please specify a file
     	   		
-    		<input type="file" name="datafile" size="40">
+    		<input type="file" name="datafile" id="input_file" size="40">
     		<input type="submit" onclick="submitCode()" value="Submit">
     		    	
     	</P    
