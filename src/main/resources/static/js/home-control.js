@@ -33,7 +33,7 @@ function deleteUser(userId) {
 }
 function submitCode()
 {
-	var file = $('#datafile').val();
+	var file = $('#input_file').val();
 	
 		if(file)
 		{
@@ -45,12 +45,12 @@ function submitCode()
 							location.reload();
 						},
 						error: function (jqXHR, exception) {
-							alert("Failed to add the user. Please check the inputs.");
+							alert("Failed to add the file. Please resubmit!.");
 						}
 					});
 		} 
 		else {
-		alert("Invalid user Id");
+		alert("Invalid File");
 		}
 	}
 
