@@ -3,7 +3,7 @@
 <head>
 
 <style>
-#header
+	#header
 	{
 		background-color:black;
 		color:red;
@@ -30,19 +30,18 @@
     	text-align: left;
     	color: white;
        	border: 1px solid black;
-       	background-color: DimGray;
-       				 
+       	background-color: DimGray;       				 
 	}
 	td
 	{
 		padding: 5px;
     	text-align: left;
        	border: 1px solid black;	
-       	color: DimGray;		 
-	}
+       	color: DimGray;	
+    }
 
-	
-    <title> <h2>CSS Code Submission Form </title>
+    <title> <h2><> CSS Code Submission </title>
+    
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>    
     <script src="/js/home-control.js"></script>
 	
@@ -53,7 +52,7 @@
 <body>    
    
     <div id="header">
-    	<h2> CSS Code Submission form! </h2>              
+    	<h2>CSS Code Submission form! </h2>              
     </div>
     <br><br><br><br><br><br><br><br>
     
@@ -87,11 +86,11 @@
 	</table>
 
 	<
-    <form method="POST" action=" " name="submit">    
+    <form action="codeSubmit" method="POST">    
     	<p>	Please specify a file
     	   		
     		<input type="file" name="datafile" id="input_file" size="40">
-    		<input type="submit" onclick="submitCode()" value="Submit">
+    		<input type="submit"  value="Submit">
     		    	
     	</P    
     </form>
