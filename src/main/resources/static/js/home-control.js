@@ -38,7 +38,7 @@ function submitCode()
 		if(file)
 		{
 			$.ajax({
-						type: "GET",
+						type: "POST",
 						url : "/cs480/codeSubmit/",
 						data : { "fileName" : file },
 						success : function(result) {
