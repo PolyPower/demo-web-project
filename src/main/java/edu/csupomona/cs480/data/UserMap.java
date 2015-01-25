@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Using a HashMap allows us to quickly query the student
  * object.
  *
- * @author yusun
+ * @author hssakaria
  *
  */
 @SuppressWarnings("serial")

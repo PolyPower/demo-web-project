@@ -1,3 +1,4 @@
+
 package edu.csupomona.cs480.data;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ public class User {
 		return filePath;
 	}
 	
-	public void setFilePath()
+	public void setFilePath(String filePath)
 	{
 		this.filePath = filePath;
 	}
