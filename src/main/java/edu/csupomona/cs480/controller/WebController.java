@@ -127,6 +127,11 @@ public class WebController {
     	return userManager.listAllUsers();
     }
 
+    @RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
+    List<User> listFiles() {
+    	return userManager.listFiles();
+    }
+    
     /*********** Web UI Test Utility **********/
     /**
      * This method provide a simple web UI for you to test the different
@@ -142,10 +147,18 @@ public class WebController {
     @RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.GET)
     ModelAndView getUsercodeSubmit() {
         ModelAndView modelAndView = new ModelAndView("codeSubmit");
+        modelAndView.addObject("files ", listFiles());
        
         return modelAndView;
     }
     
+    
+    @RequestMapping(value = "/cs480/loginHome", method = RequestMethod.GET)
+    ModelAndView getlogin() {
+        ModelAndView modelAndView = new ModelAndView("loginHome");
+     
+        return modelAndView;
+    }
     /********************************** Testing for Problems **********************************/
     /**
      * Below are all the methods that I am adding to work with displaying Problems.
