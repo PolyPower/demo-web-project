@@ -86,13 +86,14 @@
 	</table>
 
 	<
-    <form action="codeSubmit" method="POST">    
+    <form method="POST" enctype = "multipart/form-data" action="/upload">    
     	<p>	Please specify a file
     	   		
-    		<input type="file" name="datafile" id="input_file" size="40">
-    		<input type="submit"  value="Submit">
+    		<input type="file" name="file" size="40">
+    	
+    		<input type="submit"  value="Upload">
     		    	
-    	</P    
+    	</P>    
     </form>
     
     <div id="footer">

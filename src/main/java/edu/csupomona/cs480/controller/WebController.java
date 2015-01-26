@@ -148,11 +148,12 @@ public class WebController {
     ModelAndView getUsercodeSubmit() {
         ModelAndView modelAndView = new ModelAndView("codeSubmit");
         modelAndView.addObject("files ", listFiles());
-       
+              
         return modelAndView;
     }
     
     
+
     @RequestMapping(value = "/cs480/loginHome", method = RequestMethod.GET)
     ModelAndView getlogin() {
         ModelAndView modelAndView = new ModelAndView("loginHome");
@@ -238,7 +239,7 @@ public class WebController {
      * 
      * , you can see the upload page .
      * 
-     * If the file sucessfully upload, 
+     * If the file was upload, 
      * 
      * it will show you the message
      * 
@@ -249,21 +250,24 @@ public class WebController {
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("name") String name,
+    public @ResponseBody String handleFileUpload(
             @RequestParam("file") MultipartFile file){
+    	String name = null;
+    	
         if (!file.isEmpty()) {
             try {
+            	name = file.getOriginalFilename();
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
                         new BufferedOutputStream(new FileOutputStream(new File(name)));
                 stream.write(bytes);
                 stream.close();
-                return "You successfully uploaded " + name + "!";
+                return "You successfully uploaded "  + "!";
             } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
+                return "You failed to upload "  + " => " + e.getMessage();
             }
         } else {
-            return "You failed to upload " + name + " because the file was empty.";
+            return "You failed to upload "  + " because the file was empty.";
         }
     }
 
