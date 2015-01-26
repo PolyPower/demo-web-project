@@ -232,6 +232,16 @@ public class WebController {
     /** 
      * Testing File upload
      * 
+     * if you visit 
+     * 
+     * http://localhost:8080 
+     * 
+     * , you can see the upload page .
+     * 
+     * If the file sucessfully upload, 
+     * 
+     * it will show you the message
+     * 
      */
     @RequestMapping(value="/upload", method=RequestMethod.GET)
     public @ResponseBody String provideUploadInfo() {
