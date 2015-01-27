@@ -11,15 +11,6 @@ public class User {
 
 	private String filePath;
 	
-	public String getFilePath()
-	{
-		return filePath;
-	}
-	
-	public void setFilePath(String filePath)
-	{
-		this.filePath = filePath;
-	}
 	/** The unique user Id */
     private String id;
     /** The unique user Id */
@@ -60,4 +51,16 @@ public class User {
 	public void setCreationTime(String creationTime) {
 		this.creationTime = creationTime;
 	}
+	
+
+	public String getFilePath()	{
+		return filePath;
+	}
+	
+	public void setFilePath(String filePath){
+		this.filePath = filePath;
+	}
 }
+
+
+  

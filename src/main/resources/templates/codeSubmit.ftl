@@ -20,7 +20,7 @@
 	
 	table
 	{
-		 width:100%; 
+		 
 		 align="center";
 		 border: 1px solid black; 
 	}	
@@ -56,11 +56,13 @@
     </div>
     <br><br><br><br><br><br><br><br>
     
-	<table>
+	<table 	 width="100%">
 		<tr>
 			<th> Week </th>
+			<th> UserID </th>
 			<th> ProbemID </th>
 			<th> Description </th>
+			<th> File </th>
 			<th> Status </th>
 			<th> Date </th>
 			<th> Score </th>
@@ -68,33 +70,58 @@
 		
 		<tr>
 			<td> 1 </td>
-			<td> 1235 </td>
-			<td> LinkedList </td>
+			<td> userID </td>
+			<td> problemID </td>
+			<td> descfrip.. </td>
+			<td> file path </td>
 			<td> N/A </td>
 			<td> - </td>
 			<td> - </td>
 		</tr>
 		
-		<tr>
-			<td> 2 </td>
-			<td> 222 </td>
-			<td> -- </td>
-			<td> -- </td>
-			<td> -- </t>
-			<td> - </td>
-		</tr>
-	</table>
-
-	<
-    <form method="POST" enctype = "multipart/form-data" action="/upload">    
+		</table>
+<br><br>
+	<table width="120">
+	<tr>
+		<td>UserID: </td>
+		<td> <input type="text" name="userId"> </td>
+	
+	</tr>
+	<tr>
+		<td>ProblemID: </td>
+		<td>
+			<select>
+				<option value="12709"> 12345 </option>
+				<option value="12685"> 00123 </option>
+				<option value="00000"> 6666 </option>	
+			</select>
+		</td>	
+	</tr>	
+	
+	<tr>
+		<td>	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
     	<p>	Please specify a file
     	   		
     		<input type="file" name="file" size="40">
-    	
-    		<input type="submit"  value="Upload">
-    		    	
+    	</td>
+    	<td>
+    		<input type="submit" onClick="diplayMsg()" value="Upload">
+    	</td>	    	
     	</P>    
     </form>
+	
+	</tr>
+	<table>
+
+
+    
+      
+<script>
+
+	function displayMsg(){
+		alert("You successfully uploaded!");
+	}
+</script>
     
     <div id="footer">
     	Copypright © PolyPower	

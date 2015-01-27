@@ -1,7 +1,6 @@
 <html>
 
 <head>
-
 <style>
 	#header
 	{
@@ -47,7 +46,7 @@
     </div>
     <br><br><br><br><br>
 	
-    <form id="login" action="./codeSubmit.ftl" method="POST">    
+    <form id="login" action="codeSubmit.ftl" method="POST">    
     	<fieldset>
     	   		<legend><strong>Login</strong> </legend>
     	  		<table>

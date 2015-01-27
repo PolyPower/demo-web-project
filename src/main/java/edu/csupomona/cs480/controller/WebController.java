@@ -1,7 +1,6 @@
 package edu.csupomona.cs480.controller;
 
 import java.util.List;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -250,7 +249,8 @@ public class WebController {
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(
+    public @ResponseBody ModelAndView handleFileUpload(
+  // public @ResponseBody String handleFileUpload(		
             @RequestParam("file") MultipartFile file){
     	String name = null;
     	
@@ -262,13 +262,20 @@ public class WebController {
                         new BufferedOutputStream(new FileOutputStream(new File(name)));
                 stream.write(bytes);
                 stream.close();
-                return "You successfully uploaded "  + "!";
+              // return "You successfully uploaded "  + "!";
+                ModelAndView modelAndView = new ModelAndView("/codeSubmit");
+                
+                return modelAndView;
             } catch (Exception e) {
-                return "You failed to upload "  + " => " + e.getMessage();
+            	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " => " + e.getMessage());
+               // return "You failed to upload "  + " => " + e.getMessage();
+            	 return modelAndView;
             }
         } else {
-            return "You failed to upload "  + " because the file was empty.";
+          //  return "You failed to upload "  + " because the file was empty.";
+        	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
+        	  return modelAndView;
         }
-    }
+    }	
 
 }
