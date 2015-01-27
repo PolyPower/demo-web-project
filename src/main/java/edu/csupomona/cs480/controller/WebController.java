@@ -146,6 +146,7 @@ public class WebController {
     @RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.GET)
     ModelAndView getUsercodeSubmit() {
         ModelAndView modelAndView = new ModelAndView("codeSubmit");
+        modelAndView.addObject("users", listAllUsers());
         modelAndView.addObject("files ", listFiles());
               
         return modelAndView;
@@ -249,23 +250,24 @@ public class WebController {
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
-
-    public @ResponseBody ModelAndView handleFileUpload(
-  // public @ResponseBody String handleFileUpload(		
-
-   // public @ResponseBody String handleFileUpload(
-    //		@RequestParam("UserID") String ID,
-
+   public @ResponseBody ModelAndView handleFileUpload(
+    		@PathVariable("UserID") String id,
+    		@RequestParam("ProblemID") String promb,
             @RequestParam("file") MultipartFile file){
     	String name = null;
     	
         if (!file.isEmpty()) {
             try {
             	User user = new User();
-            	user.setId(ID);
+            	user.setId(id);
+            	user.setWeek(1);
+            	user.setScore("-");
+            	user.setprob(promb);
             	user.setFile(file);
             	user.setStatus(true);
-            	userManager.updateUser(user);
+            	user.setFileName();
+            	user.setStat();
+            	userManager.updateUser(user);// add
             	name = file.getOriginalFilename();
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
@@ -297,5 +299,5 @@ public class WebController {
 //        }
     }	
 
-
+    }
 }

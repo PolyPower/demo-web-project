@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.UserMap;
-import edu.csupomona.cs480.data.codeSubmitMap;
 import edu.csupomona.cs480.util.ResourceResolver;
 
 /**
@@ -55,36 +54,6 @@ public class FSUserManager implements UserManager {
         return userMap;
 	}
 
-//	/**
-//	 * Load the user map from the local file.
-//	 *
-//	 * @return
-//	 */
-//	private UserMap getusertMap() {
-//		UserMap userMap = null;
-//		File userFile = ResourceResolver.getUserFile();
-//        if (userFile.exists()) {
-//        	// read the file and convert the JSON content
-//        	// to the UserMap object
-//            try {
-//				userMap = JSON.readValue(userFile, UserMap.class);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//        } else {
-//        	userMap = new UserMap();
-//        }
-//        return userMap;
-//	}
-	
-//	private void persistuserMap(UserMap usermap) {
-//		try {
-//			// convert the user object to JSON format
-//            JSON.writeValue(ResourceResolver.getUserFile(), usermitMap);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//	}
 	/**
 	 * Save and persist the user map in the local file.
 	 *
@@ -104,7 +73,6 @@ public class FSUserManager implements UserManager {
 		UserMap userMap = getUserMap();
         return userMap.get(userId);
 	}
-	
 
 	@Override
 	public void updateUser(User user) {
@@ -125,10 +93,5 @@ public class FSUserManager implements UserManager {
 		UserMap userMap = getUserMap();
 		return new ArrayList<User>(userMap.values());
 	}
-	@Override
-	public List<User> listFiles() {
-		UserMap userMap = getUserMap();
-		return new ArrayList<User>(userMap.values());
-	}
-	
+
 }

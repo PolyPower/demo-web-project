@@ -24,7 +24,11 @@ public class User {
     private String creationTime = new Date(System.currentTimeMillis()).toString();
     
     private boolean status;
-    
+    private String prob;
+    private String stat;
+    private String fileName;
+    private int week;
+    private String score;
     private MultipartFile file; 
 
     public String getId() {
@@ -84,6 +88,51 @@ public class User {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+
+	public String getprob() {
+		return prob;
+	}
+
+	public void setprob(String prob) {
+		this.prob = prob;
+	}
+
+	public String getStat() {
+		return stat;
+	}
+
+	public void setStat() {
+		if(status){
+			stat = "Submitted";
+		}else {
+			stat = "unSubmitted";
+		}
+	}
+
+	public void setFileName() {
+		fileName = file.getOriginalFilename();
+	}
+	public String getFileName() {
+		return fileName;
+	}
+
+	public int getWeek() {
+		return week;
+	}
+
+	public void setWeek(int week) {
+		this.week = week;
+	}
+
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+
 
 }
 

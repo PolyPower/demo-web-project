@@ -50,58 +50,41 @@
 </head>
 
 <body>    
+   
     <div id="header">
     	<h2>CSS Code Submission form! </h2>              
     </div>
-    <br><br><br><br><br><br><br>
-    <div>
-          <div>    
-	           <table 	 width="100%">
-		                <tr>
-			                <th> Week </th>
-							<th> UserID </th>
-							<th> ProbemID </th>
-							<th> File </th>
-							<th> Status </th>
-							<th> Date </th>
-							<th> Score </th>
-						</tr>
-							<#list users as user>
-           						<tr>
-           						     <td>${user.week}</td>
-             						 <td>${user.id}</td>
-             						 <td>${user.prob}</td>
-            						 <td>${user.fileName}</td>
- 						             <td>${user.stat}</td>
-             						 <td>${user.creationTime}</td>
-        						     <td>${user.score}</td>
-          						</tr>
-       					</#list>
-               </table>
-               </div>
-               
-               <hr>
-               
-               <div>
-               	<br><br>
-		<table width="120">
-			<tr>
-				<td>UserID: </td>
-			    <td>ProblemID: </td>
-			    <td>Week: </td>
-			    
-  
-			</tr>
-			<tr>
-		     	<td> <input type="text" name="prob"></td>
-		     	<td> <input type="text" name="id"> </td>
-				
-			</tr>	
-	
+    <br><br><br><br><br><br><br><br>
+    
+	<table 	 width="100%">
+		<tr>
+			<th> Week </th>
+			<th> UserID </th>
+			<th> ProbemID </th>
+			<th> Description </th>
+			<th> File </th>
+			<th> Status </th>
+			<th> Date </th>
+			<th> Score </th>
+		</tr>
+		
+		<tr>
+			<td> 1 </td>
+			<td> userID </td>
+			<td> problemID </td>
+			<td> descfrip.. </td>
+			<td> file path </td>
+			<td> N/A </td>
+			<td> - </td>
+			<td> - </td>
+		</tr>
+		
+		</table>
+<br><br>
+
 	<tr>
 		<td>	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
     	<p>	Please specify a file
-
     		<input type="file" name="file" size="40">
     	</td>
     	<td>
@@ -111,8 +94,9 @@
     </form>
 	
 	</tr>
-	</table>
-	</div>
+	<table>
+
+
     
       
 <script>
@@ -121,6 +105,8 @@
 		alert("You successfully uploaded!");
 	}
 </script>
+
+
     
     <div id="footer">
     	Copypright © PolyPower	
