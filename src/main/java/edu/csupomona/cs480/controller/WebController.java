@@ -284,17 +284,17 @@ public class WebController {
             }
         } else {
           //  return "You failed to upload "  + " because the file was empty.";
-        	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
+         	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
         	  return modelAndView;
 
-                return ID + " successfully uploaded "  + "!";
-            } catch (Exception e) {
-                return ID + " failed to upload "  + " => " + e.getMessage();
-            }
-        } else {
-            return ID + " failed to upload "  + " because the file was empty.";
-
-        }
+ //               return ID + " successfully uploaded "  + "!";
+ ///           } catch (Exception e) {
+///                return ID + " failed to upload "  + " => " + e.getMessage();
+//            }
+//        } else {
+ //           return ID + " failed to upload "  + " because the file was empty.";//
+//
+//        }
     }	
 
 
