@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 
 <head>
 
@@ -102,6 +102,7 @@
 		<td>	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
     	<p>	Please specify a file
     	   		
+<<<<<<< HEAD
     		<input type="file" name="file" size="40">
     	</td>
     	<td>
@@ -122,6 +123,16 @@
 		alert("You successfully uploaded!");
 	}
 </script>
+
+    		<input type="file" name="file" size="40"> UserID: <input
+			type="text" name="name"><br /> <br />
+    	
+    		<input type="submit"  value="Upload">
+    		    	
+    	</P>    
+    </form>
+
+
     
     <div id="footer">
     	Copypright © PolyPower	

@@ -234,7 +234,7 @@ public class WebController {
      * 
      * if you visit 
      * 
-     * http://localhost:8080 
+     * http://localhost:8080 /cs480/codesubmit
      * 
      * , you can see the upload page .
      * 
@@ -249,19 +249,30 @@ public class WebController {
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
+
     public @ResponseBody ModelAndView handleFileUpload(
   // public @ResponseBody String handleFileUpload(		
+
+   // public @ResponseBody String handleFileUpload(
+    //		@RequestParam("UserID") String ID,
+
             @RequestParam("file") MultipartFile file){
     	String name = null;
     	
         if (!file.isEmpty()) {
             try {
+            	User user = new User();
+            	user.setId(ID);
+            	user.setFile(file);
+            	user.setStatus(true);
+            	userManager.updateUser(user);
             	name = file.getOriginalFilename();
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
                         new BufferedOutputStream(new FileOutputStream(new File(name)));
                 stream.write(bytes);
                 stream.close();
+
               // return "You successfully uploaded "  + "!";
                 ModelAndView modelAndView = new ModelAndView("/codeSubmit");
                 
@@ -275,7 +286,16 @@ public class WebController {
           //  return "You failed to upload "  + " because the file was empty.";
         	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
         	  return modelAndView;
+
+                return ID + " successfully uploaded "  + "!";
+            } catch (Exception e) {
+                return ID + " failed to upload "  + " => " + e.getMessage();
+            }
+        } else {
+            return ID + " failed to upload "  + " because the file was empty.";
+
         }
     }	
+
 
 }
