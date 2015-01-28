@@ -83,12 +83,16 @@
 <br><br>
 
 	<tr>
-		<td>	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
+		<td>
+			<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">   
+		    	<input type="text" name="ProblemID">
+		        <input type="text" name="UserID">
+		          
     	<p>	Please specify a file
     		<input type="file" name="file" size="40">
     	</td>
     	<td>
-    		<input type="submit" onClick="diplayMsg()" value="Upload">
+    		<input type="submit" value="Upload">
     	</td>	    	
     	</P>    
     </form>

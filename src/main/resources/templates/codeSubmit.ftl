@@ -84,30 +84,32 @@
                
                <div>
                	<br><br>
-		<table width="120">
-			<tr>
+		
+		
+			
+		
+	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
+    	<table width="120">
+    		<tr>
 				<td>UserID: </td>
-			    <td>ProblemID: </td>
+				<td><input type="text" name="UserID"> </td>
+			<tr>	
+				
+			<tr>
+				<td>ProblemID: </td>	
+				<td><input type="text" name="ProblemID"></td>
+			    
+			</tr>    
 			    <td>Week: </td>
 			    
   
 			</tr>
-			<tr>
-		     	<td> <input type="text" name="prob"></td>
-		     	<td> <input type="text" name="id"> </td>
-				
-			</tr>	
-	
-	<tr>
-		<td>	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
-    	<p>	Please specify a file
 
+				
+				
     		<input type="file" name="file" size="40">
-    	</td>
-    	<td>
     		<input type="submit" onClick="diplayMsg()" value="Upload">
-    	</td>	    	
-    	</P>    
+        
     </form>
 	
 	</tr>

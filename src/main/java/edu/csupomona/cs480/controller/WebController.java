@@ -251,10 +251,10 @@ public class WebController {
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
    public @ResponseBody ModelAndView handleFileUpload(
-    		@PathVariable("UserID") String id,
+		    @RequestParam("UserID") String id,
     		@RequestParam("ProblemID") String promb,
             @RequestParam("file") MultipartFile file){
-    	String name = null;
+    	String name = null;                             
     	
         if (!file.isEmpty()) {
             try {

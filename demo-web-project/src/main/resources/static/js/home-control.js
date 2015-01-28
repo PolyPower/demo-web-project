@@ -80,4 +80,29 @@ function getUser(userId) {
 	} else {
 		alert("Invalid user Id");
 	}
+	function upload(UserID, ProblemID,file)
+	{
+		if (userID){
+			$.ajax(
+				{
+					type : "POST",
+					url  : "/cs480/codeSubmit/",
+					data : {
+					     	"User" : UserID,
+							"Problem" : ProblemID,
+							"file" : file
+					},
+					success : function(result) {
+						location.reload();
+					},
+					error: function (jqXHR, exception) {
+						alert("Failed to add the user. Please check the inputs.");
+					}
+				}	
+			);
+			
+		}else {
+			alert("Invalid user ID")
+		}
+	}
 }
