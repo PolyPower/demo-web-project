@@ -333,7 +333,7 @@ public class WebController {
     } */
 
  
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
+    @RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
    public @ResponseBody ModelAndView handleFileUpload(
 		    @RequestParam("UserID") String id,
     		@RequestParam("ProblemID") String promb,
@@ -386,63 +386,63 @@ public class WebController {
 
     }
 
-	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView handleFileUpload(
-			@RequestParam("UserID") String id,
-			@RequestParam("ProblemID") String promb,
-			@RequestParam("file") MultipartFile file) {
-		String name = null;
-
-		if (!file.isEmpty()) {
-			try {
-				name = file.getOriginalFilename();
-				User user = new User();
-				user.setId(id);
-				user.setWeek(1);
-				user.setScore("-");
-				user.setprob(promb);
-				// user.setFile(file);
-				user.setStatus(true);
-				user.setFileName(name);
-				user.setStat();
-
-				File localFile = new File(name);
-				user.setFilePath(localFile.getAbsolutePath());
-				userManager.updateUser(user);// add
-
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(localFile));
-				stream.write(bytes);
-				stream.close();
-
-				// return "You successfully uploaded " + "!";
-				ModelAndView modelAndView = new ModelAndView("/codeSubmit");
-				return modelAndView;
-
-			} catch (Exception e) {
-				ModelAndView modelAndView = new ModelAndView(
-						"You failed to upload " + " => " + e.getMessage());
-				// return "You failed to upload " + " => " + e.getMessage();
-				return modelAndView;
-			}
-		} else {
-			// return "You failed to upload " + " because the file was empty.";
-			ModelAndView modelAndView = new ModelAndView(
-					"You failed to upload " + " because the file was empty.");
-			return modelAndView;
-
-			// return ID + " successfully uploaded " + "!";
-			// / } catch (Exception e) {
-			// / return ID + " failed to upload " + " => " + e.getMessage();
-			// }
-			// } else {
-			// return ID + " failed to upload " +
-			// " because the file was empty.";//
-			//
-			// }
-		}
-
-	}
+//	@RequestMapping(value = "/cs480/codeSubmitdd", method = RequestMethod.POST)
+//	public @ResponseBody ModelAndView handleFileUpload(
+//			@RequestParam("UserID") String id,
+//			@RequestParam("ProblemID") String promb,
+//			@RequestParam("file") MultipartFile file) {
+//		String name = null;
+//
+//		if (!file.isEmpty()) {
+//			try {
+//				name = file.getOriginalFilename();
+//				User user = new User();
+//				user.setId(id);
+//				user.setWeek(12);
+//				user.setScore("-");
+//				user.setprob(promb);
+//				// user.setFile(file);
+//				user.setStatus(true);
+//				user.setFileName(name);
+//				user.setStat();
+//
+//				File localFile = new File(name);
+//				user.setFilePath(localFile.getAbsolutePath());
+//				userManager.updateUser(user);// add
+//
+//				byte[] bytes = file.getBytes();
+//				BufferedOutputStream stream = new BufferedOutputStream(
+//						new FileOutputStream(localFile));
+//				stream.write(bytes);
+//				stream.close();
+//
+//				// return "You successfully uploaded " + "!";
+//				ModelAndView modelAndView = new ModelAndView("/codeSubmit");
+//				return modelAndView;
+//
+//			} catch (Exception e) {
+//				ModelAndView modelAndView = new ModelAndView(
+//						"You failed to upload " + " => " + e.getMessage());
+//				// return "You failed to upload " + " => " + e.getMessage();
+//				return modelAndView;
+//			}
+//		} else {
+//			// return "You failed to upload " + " because the file was empty.";
+//			ModelAndView modelAndView = new ModelAndView(
+//					"You failed to upload " + " because the file was empty.");
+//			return modelAndView;
+//
+//			// return ID + " successfully uploaded " + "!";
+//			// / } catch (Exception e) {
+//			// / return ID + " failed to upload " + " => " + e.getMessage();
+//			// }
+//			// } else {
+//			// return ID + " failed to upload " +
+//			// " because the file was empty.";//
+//			//
+//			// }
+//		}
+//
+//	}
 
 }
