@@ -88,19 +88,19 @@ function addUser() {
 	}
 }
 
-function getUser(userId) {
-	var userId = $('#query_id').val();
-	if (userId) {
+function getUser(UserId) {
+	var UserId = $('#query_id').val();
+	if (UserId) {
 		$.ajax(
 				{
 					type : "GET",
-					url  : "/cs480/user/" + userId,
+					url  : "/cs480/user/" ,
 					data : {
 					},
 					success : function(result) {
 						$('#result_id').text(result.id);
 						$('#result_prob').text(result.prob);
-						$('#result_file').text(result.file);
+						$('#result_fileName').text(result.fileName);
 					},
 					error: function (jqXHR, exception) {
 						alert("Failed to get the user.");
@@ -110,29 +110,5 @@ function getUser(userId) {
 		alert("Invalid user Id");
 	}
 	
-	function upload(UserID, ProblemID,file)
-	{
-		if (UserID){
-			$.ajax(
-				{
-					type : "POST",
-					url  : "/cs480/codeSubmit/",
-					data : {
-					     	"User" : UserID,
-							"Problem" : ProblemID,
-							"file" : file
-					},
-					success : function(result) {
-						location.reload();
-					},
-					error: function (jqXHR, exception) {
-						alert("Failed to add the user. Please check the inputs.");
-					}
-				}	
-			);
-			
-		}else {
-			alert("Invalid user ID")
-		}
-	}
+
 }

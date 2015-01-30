@@ -88,7 +88,7 @@
 		
 			
 		
-	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
+	<form method="POST" enctype = "multipart/form-data" action="/cs480/codeSubmit" onSubmit="displayMsg()">    
     	<table width="120">
     		<tr>
 				<td>UserID: </td>
@@ -98,7 +98,6 @@
 			<tr>
 				<td>ProblemID: </td>	
 				<td><input type="text" name="ProblemID"></td>
-			    
 			</tr>    
 			    <td>Week: </td>
 			    <td><select name = "Weeks">
@@ -113,7 +112,7 @@
   
 			</tr>
 
-				
+				</tr>
 				
     		<input type="file" name="file" size="40">
     		<input type="submit" onClick="diplayMsg()" value="Upload">
