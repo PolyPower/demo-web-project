@@ -253,29 +253,30 @@ public class WebController {
    public @ResponseBody ModelAndView handleFileUpload(
 		    @RequestParam("UserID") String id,
     		@RequestParam("ProblemID") String promb,
+    		@RequestParam("Weeks") int weekNo,
             @RequestParam("file") MultipartFile file){
     	String name = null;                             
     	
         if (!file.isEmpty()) {
             try {
             	User user = new User();
+            	name = file.getOriginalFilename();
             	user.setId(id);
-            	user.setWeek(1);
+            	user.setWeek(weekNo);
             	user.setScore("-");
             	user.setprob(promb);
-            	user.setFile(file);
             	user.setStatus(true);
-            	user.setFileName();
+            	user.setFileName(name);
             	user.setStat();
             	userManager.updateUser(user);// add
-            	name = file.getOriginalFilename();
+            	
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream =
                         new BufferedOutputStream(new FileOutputStream(new File(name)));
                 stream.write(bytes);
                 stream.close();
 
-              // return "You successfully uploaded "  + "!";
+                // return "You successfully uploaded "  + "!";
                 ModelAndView modelAndView = new ModelAndView("/codeSubmit");
                 
                 return modelAndView;
@@ -297,7 +298,7 @@ public class WebController {
  //           return ID + " failed to upload "  + " because the file was empty.";//
 //
 //        }
-    }	
+        }	
 
     }
 }

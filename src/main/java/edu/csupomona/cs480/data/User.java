@@ -1,4 +1,3 @@
-
 package edu.csupomona.cs480.data;
 
 import java.io.FileInputStream;
@@ -6,38 +5,38 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
-
 /**
  * The basic user object.
  */
 public class User {
 
 	private String filePath;
-	
+
 	/** The unique user Id */
-    private String id;
-    /** The unique user Id */
-    private String name;
-    /** The unique user Id */
-    private String major;
-    /** The timestamp when the user is being created */
-    private String creationTime = new Date(System.currentTimeMillis()).toString();
-    
-    private boolean status;
-    private String prob;
-    private String stat;
-    private String fileName;
-    private int week;
-    private String score;
-    private MultipartFile file; 
+	private String id;
+	/** The unique user Id */
+	private String name;
+	/** The unique user Id */
+	private String major;
+	/** The timestamp when the user is being created */
+	private String creationTime = new Date(System.currentTimeMillis())
+			.toString();
 
-    public String getId() {
-        return id;
-    }
+	private boolean status;
+	private String prob;
+	private String stat;
+	private String fileName;
+	private int week;
+	private String score;
+	private MultipartFile file;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -63,15 +62,13 @@ public class User {
 		this.creationTime = creationTime;
 	}
 
-
-	public String getFilePath()	{
+	public String getFilePath() {
 		return filePath;
 	}
-	
-	public void setFilePath(String filePath){
+
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-
 
 	public boolean isStatus() {
 		return status;
@@ -102,16 +99,17 @@ public class User {
 	}
 
 	public void setStat() {
-		if(status){
+		if (status) {
 			stat = "Submitted";
-		}else {
+		} else {
 			stat = "unSubmitted";
 		}
 	}
 
-	public void setFileName() {
-		fileName = file.getOriginalFilename();
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
+
 	public String getFileName() {
 		return fileName;
 	}
@@ -132,9 +130,4 @@ public class User {
 		this.score = score;
 	}
 
-
-
 }
-
-
-  
