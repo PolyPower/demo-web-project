@@ -88,7 +88,7 @@
 		
 			
 		
-	<form method="POST" enctype = "multipart/form-data" action="/upload" onSubmit="displayMsg()">    
+	<form method="POST" enctype = "multipart/form-data" action="cs480/codeSubmit" onSubmit="displayMsg()">    
     	<table width="120">
     		<tr>
 				<td>UserID: </td>

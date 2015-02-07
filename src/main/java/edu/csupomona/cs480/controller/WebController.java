@@ -32,6 +32,8 @@ import edu.csupomona.cs480.data.provider.UserManager;
 @RestController
 public class WebController {
 
+///////////////// All code between are examples from the professor //////////////	
+	
 	/**
 	 * When the class instance is annotated with
 	 * {@link Autowired}, it will be looking for the actual
@@ -55,7 +57,7 @@ public class WebController {
     	// You can replace this with other string,
     	// and run the application locally to check your changes
     	// with the URL: http://localhost:8080/
-        return "Hello World! Hetal";
+        return "Hello World! Seulki ⚘ Hetal ⚘ Khamille";
     }
 
     /**
@@ -93,7 +95,7 @@ public class WebController {
      * @return
      */
     @RequestMapping(value = "/cs480/user/{userId}", method = RequestMethod.POST)
-    User updateUser(
+    User updateUser( 
     		@PathVariable("userId") String id,
     		@RequestParam("name") String name,
     		@RequestParam(value = "major", required = false) String major) {
@@ -117,30 +119,38 @@ public class WebController {
     }
 
     /**
-     * This API lists all the users in the current database.
-     *
-     * @return
-     */
-    @RequestMapping(value = "/cs480/users/list", method = RequestMethod.GET)
-    List<User> listAllUsers() {
-    	return userManager.listAllUsers();
-    }
+	 * This API lists all the users in the current database.
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/cs480/users/list", method = RequestMethod.GET)
+	List<User> listAllUsers() {
+		return userManager.listAllUsers();
+	}
 
-    @RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
+	/*********** Web UI Test Utility **********/
+	/**
+	 * This method provide a simple web UI for you to test the different
+	 * functionalities used in this web service.
+	 */
+	@RequestMapping(value = "/cs480/home", method = RequestMethod.GET)
+	ModelAndView getUserHomepage() {
+	    ModelAndView modelAndView = new ModelAndView("home");
+	    modelAndView.addObject("users", listAllUsers());
+	    return modelAndView;
+	}
+	
+///////////////// //////////////////////////////////////////////// //////////////	
+	
+	
+	
+	
+	
+	
+
+	@RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
     List<User> listFiles() {
     	return userManager.listFiles();
-    }
-    
-    /*********** Web UI Test Utility **********/
-    /**
-     * This method provide a simple web UI for you to test the different
-     * functionalities used in this web service.
-     */
-    @RequestMapping(value = "/cs480/home", method = RequestMethod.GET)
-    ModelAndView getUserHomepage() {
-        ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject("users", listAllUsers());
-        return modelAndView;
     }
     
     @RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.GET)
@@ -148,7 +158,6 @@ public class WebController {
         ModelAndView modelAndView = new ModelAndView("codeSubmit");
         modelAndView.addObject("users", listAllUsers());
         modelAndView.addObject("files ", listFiles());
-              
         return modelAndView;
     }
     
@@ -157,7 +166,6 @@ public class WebController {
     @RequestMapping(value = "/cs480/loginHome", method = RequestMethod.GET)
     ModelAndView getlogin() {
         ModelAndView modelAndView = new ModelAndView("loginHome");
-     
         return modelAndView;
     }
     /********************************** Testing for Problems **********************************/
@@ -243,13 +251,13 @@ public class WebController {
      * 
      * it will show you the message
      * 
-     */
+     *//*
     @RequestMapping(value="/upload", method=RequestMethod.GET)
     public @ResponseBody String provideUploadInfo() {
         return "You can upload a file by posting to this same URL.";
-    }
+    }*/
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
+    @RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
    public @ResponseBody ModelAndView handleFileUpload(
 		    @RequestParam("UserID") String id,
     		@RequestParam("ProblemID") String promb,
