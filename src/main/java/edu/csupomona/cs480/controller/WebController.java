@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -13,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.provider.UserManager;
+import edu.csupomona.cs480.util.ResourceResolver;
 
 /**
  * This is the controller used by Spring framework.
@@ -241,30 +247,32 @@ public class WebController {
 	}
 
 	/**
-	 * Testing file
+	 * Download file, done 
+	 * 
+	 * file should be in the repository folder
 	 * 
 	 * @param fileName
 	 * @param response
+	 * @return 
 	 * @throws IOException
 	 */
 	
-	@RequestMapping(value = "/file/{fileName}/user/{userId}", method = RequestMethod.GET)
-	public void getFile(@PathVariable("filePath") String fileName,
-			@PathVariable("UserId") String userId, HttpServletResponse response) {
-		User user = userManager.getUser(userId);
-		String basePath = user.getFilePath();
-		File file = new File(basePath + "//" + fileName);
-		try {
-			IOUtils.copy(new FileInputStream(file), response.getOutputStream());
-			//response.setContentType("imge/png");
-			response.flushBuffer();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	@RequestMapping(value = "/file/{fileName}/download", method = RequestMethod.GET)
+	public void getFile(@PathVariable("fileName") String fileName,
+			/*@PathVariable("UserId") String userId,*/ HttpServletResponse response) throws IOException {    
+		System.out.println(fileName);
+		File f = ResourceResolver.getUploadedFile(fileName);
+		System.out.println(f.getAbsolutePath() + " " + f.exists());
+		//1.GetthefileofyourphotobasedontheuserIdandphotoId
+		InputStream file = new FileInputStream(f);
+		//2.Returnthephotofileasanoutputstreamusingthecodebelow
+		IOUtils.copy(file,response.getOutputStream());
+		//response.setContentType("image/jpeg");
+		response.flushBuffer();
+	   
 	}
+	
+	
 
 	/**
 	 * done, fix a list problem
@@ -294,7 +302,8 @@ public class WebController {
         return problem;
     }*/
     
-    /**
+
+	/**
      * This is an example of sending an HTTP POST request to
      * update a problem's information (or create the problem if 
      * it doesn't exist yet).
