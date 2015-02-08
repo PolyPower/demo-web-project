@@ -43,6 +43,8 @@ import edu.csupomona.cs480.util.ResourceResolver;
 @RestController
 public class WebController {
 
+///////////////// All code between are examples from the professor //////////////	
+	
 	/**
 	 * When the class instance is annotated with {@link Autowired}, it will be
 	 * looking for the actual instance from the defined beans.
@@ -51,7 +53,8 @@ public class WebController {
 	 */
 	@Autowired
 	private UserManager userManager;
-
+	
+	
 	/**
 	 * This is a simple example of how the HTTP API works. It returns a String
 	 * "OK" in the HTTP response. To try it, run the web application locally, in
@@ -62,9 +65,9 @@ public class WebController {
 		// You can replace this with other string,
 		// and run the application locally to check your changes
 		// with the URL: http://localhost:8080/
-		return "Hello World! Hetal";
+		return "Hello World! Seulki ⚘ Hetal ⚘ Khamille";
 	}
-
+	
 	/**
 	 * This is a simple example of how to use a data manager to retrieve the
 	 * data and return it as an HTTP response.
@@ -117,8 +120,7 @@ public class WebController {
 		userManager.deleteUser(userId);
 	}
 
-	/**
-	 * This API lists all the users in the current database.
+    /** This API lists all the users in the current database.
 	 *
 	 * @return
 	 */
@@ -127,6 +129,28 @@ public class WebController {
 		return userManager.listAllUsers();
 	}
 
+	
+///////////////// All code between are examples from the professor //////////////	
+	
+	
+
+
+	@RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
+    List<User> listFiles() {
+    	return userManager.listFiles();
+	}
+    
+
+	
+    /********************************** Testing for Problems **********************************/
+    /**
+     * Below are all the methods that I am adding to work with displaying Problems.
+     */
+    
+    /**
+	 * When the class instance is annotated with
+	 * {@link Autowired}, it will be looking for the actual
+	 * instance from the defined beans.
 	@RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
 	List<User> listFiles() {
 		return userManager.listFiles();
@@ -341,8 +365,26 @@ public class WebController {
     	return problem;
     } */
 
- 
-    @RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
+    /** 
+     * Testing File upload
+     * 
+     * if you visit 
+     * 
+     * http://localhost:8080 /cs480/codesubmit
+     * 
+     * , you can see the upload page .
+     * 
+     * If the file was upload, 
+     * 
+     * it will show you the message
+     * 
+     *//*
+    @RequestMapping(value="/upload", method=RequestMethod.GET)
+    public @ResponseBody String provideUploadInfo() {
+        return "You can upload a file by posting to this same URL.";
+    }*/
+
+	@RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
    public @ResponseBody ModelAndView handleFileUpload(
 		    @RequestParam("UserID") String id,
     		@RequestParam("ProblemID") String promb,
@@ -369,89 +411,19 @@ public class WebController {
                 stream.write(bytes);
                 stream.close();
 
-                // return "You successfully uploaded "  + "!";
                 ModelAndView modelAndView = new ModelAndView("/codeSubmit");
                 
                 return modelAndView;
             } catch (Exception e) {
             	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " => " + e.getMessage());
-               // return "You failed to upload "  + " => " + e.getMessage();
-            	 return modelAndView;
+            	  return modelAndView;
             }
         } else {
-          //  return "You failed to upload "  + " because the file was empty.";
-         	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
-        	  return modelAndView;
-
- //               return ID + " successfully uploaded "  + "!";
- ///           } catch (Exception e) {
-///                return ID + " failed to upload "  + " => " + e.getMessage();
-//            }
-//        } else {
- //           return ID + " failed to upload "  + " because the file was empty.";//
-//
-//        }
+        	
+        	ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
+        	return modelAndView;
         }	
 
     }
-
-//	@RequestMapping(value = "/cs480/codeSubmitdd", method = RequestMethod.POST)
-//	public @ResponseBody ModelAndView handleFileUpload(
-//			@RequestParam("UserID") String id,
-//			@RequestParam("ProblemID") String promb,
-//			@RequestParam("file") MultipartFile file) {
-//		String name = null;
-//
-//		if (!file.isEmpty()) {
-//			try {
-//				name = file.getOriginalFilename();
-//				User user = new User();
-//				user.setId(id);
-//				user.setWeek(12);
-//				user.setScore("-");
-//				user.setprob(promb);
-//				// user.setFile(file);
-//				user.setStatus(true);
-//				user.setFileName(name);
-//				user.setStat();
-//
-//				File localFile = new File(name);
-//				user.setFilePath(localFile.getAbsolutePath());
-//				userManager.updateUser(user);// add
-//
-//				byte[] bytes = file.getBytes();
-//				BufferedOutputStream stream = new BufferedOutputStream(
-//						new FileOutputStream(localFile));
-//				stream.write(bytes);
-//				stream.close();
-//
-//				// return "You successfully uploaded " + "!";
-//				ModelAndView modelAndView = new ModelAndView("/codeSubmit");
-//				return modelAndView;
-//
-//			} catch (Exception e) {
-//				ModelAndView modelAndView = new ModelAndView(
-//						"You failed to upload " + " => " + e.getMessage());
-//				// return "You failed to upload " + " => " + e.getMessage();
-//				return modelAndView;
-//			}
-//		} else {
-//			// return "You failed to upload " + " because the file was empty.";
-//			ModelAndView modelAndView = new ModelAndView(
-//					"You failed to upload " + " because the file was empty.");
-//			return modelAndView;
-//
-//			// return ID + " successfully uploaded " + "!";
-//			// / } catch (Exception e) {
-//			// / return ID + " failed to upload " + " => " + e.getMessage();
-//			// }
-//			// } else {
-//			// return ID + " failed to upload " +
-//			// " because the file was empty.";//
-//			//
-//			// }
-//		}
-//
-//	}
 
 }

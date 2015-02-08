@@ -38,24 +38,7 @@ public class User {
 	public void setId(String id) {
 		this.id = id;
 	}
- /// and testing file download ( getfile won't work now )
-
-//	public String getName() {
-//		return name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
-//
-//	public String getMajor() {
-//		return major;
-//	}
-//
-//	public void setMajor(String major) {
-//		this.major = major;
-//	}
-
+	
 	public String getCreationTime() {
 		return creationTime;
 	}
