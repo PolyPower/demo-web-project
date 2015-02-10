@@ -1,4 +1,4 @@
-package edu.csupomona.cs480.controller;
+﻿package edu.csupomona.cs480.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -274,24 +274,31 @@ public class WebController {
 	 * 
 	 * file should be in the repository folder
 	 * 
+	 *  
 	 * @param fileName
 	 * @param response
 	 * @return
 	 * @throws IOException
 	 */
-
-	@RequestMapping(value = "/file/{fileName}/download", method = RequestMethod.GET)
-	public void getFile(@PathVariable("fileName") String fileName,
-	/* @PathVariable("UserId") String userId, */HttpServletResponse response)
-			throws IOException {
-		System.out.println(fileName);
-		File f = ResourceResolver.getUploadedFile(fileName);
+	
+	//@RequestMapping(value = "/file/{fileName}/user/{user}/download", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{user}/download", method = RequestMethod.GET)
+	public void getFile(/*@PathVariable("fileName") String fileName,*/
+			@PathVariable("user") String userId, HttpServletResponse response) throws IOException {    
+		//System.out.println(fileName);
+		User user = userManager.getUser(userId);
+		String path = user.getFilePath();
+		System.out.println(path);
+		File f = new File(path);/*ResourceResolver.getUploadedFile(fileName);*/
 		System.out.println(f.getAbsolutePath() + " " + f.exists());
 		// 1.GetthefileofyourphotobasedontheuserIdandphotoId
 		InputStream file = new FileInputStream(f);
-		// 2.Returnthephotofileasanoutputstreamusingthecodebelow
-		IOUtils.copy(file, response.getOutputStream());
-		// response.setContentType("image/jpeg");
+
+		//2.Returnthephotofileasanoutputstreamusingthecodebelow
+		IOUtils.copy(file,response.getOutputStream());
+		//response.setContentType("image/jpeg");
+		response.setHeader("Content-Disposition","attachment; filename= \"" + f.getName() + "\"");//fileName);
+
 		response.flushBuffer();
 
 	}
@@ -309,6 +316,7 @@ public class WebController {
 	// private UserManager userManager;
 
 	/**
+
 	 * This is a simple example of how to use a data manager to retrieve the
 	 * data and return it as an HTTP response.
 	 * <p>
@@ -380,52 +388,6 @@ public class WebController {
 	 * "You can upload a file by posting to this same URL."; }
 	 */
 
-	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView handleFileUpload(
-			@RequestParam("UserID") String id,
-			@RequestParam("ProblemID") String promb,
-			@RequestParam("Weeks") int weekNo,
-			@RequestParam("file") MultipartFile file) {
-		String name = null;
-
-		if (!file.isEmpty()) {
-			try {
-				User user = new User();
-				name = file.getOriginalFilename();
-				user.setId(id);
-				user.setWeek(weekNo);
-				user.setScore("-");
-				user.setprob(promb);
-				user.setStatus(true);
-				user.setFileName(name);
-				user.setStat();
-				userManager.updateUser(user);// add
-
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(name)));
-				stream.write(bytes);
-				stream.close();
-
-				ModelAndView modelAndView = new ModelAndView("/codeSubmit");
-
-				return modelAndView;
-			} catch (Exception e) {
-				ModelAndView modelAndView = new ModelAndView(
-						"You failed to upload " + " => " + e.getMessage());
-				return modelAndView;
-			}
-		} else {
-
-			ModelAndView modelAndView = new ModelAndView(
-					"You failed to upload " + " because the file was empty.");
-			return modelAndView;
-		}
-
-	}
-
-	
-	
 	
 	/**
 	 * Khamille's contribution for Assignment 5: HashBasedTable using
@@ -439,5 +401,106 @@ public class WebController {
 		HashBasedTable twoKeyMap = HashBasedTable.create();
 		return "Hello World! I created a HashTable whose values are accessible using two key values using Google Guava.";
 	}
+    
+	 /**
+     * This is an example of sending an HTTP POST request to
+     * update a problem's information (or create the problem if 
+     * it doesn't exist yet).
+     *
+     * You can test this with a HTTP client by sending
+     *  http://localhost:8080/cs480/problem/12709
+     *  	==name=John major=CS==
+     *
+     * Note, the URL will not work directly in browser, because
+     * it is not a GET request. You need to use a tool such as
+     * curl.
+     *
+     * @param id
+     * @param name
+     * @param major
+     * @return
+     **/
+ /** @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.POST)
+    Problem updateProblem(
+    		@PathVariable("problemId") String id,
+    		@RequestParam(value = "title", required = false) String title,
+    		@RequestParam("quarter") String quarter,
+    		@RequestParam("year") String year,
+    		@RequestParam("week") String week,
+    		@RequestParam("pdfUrl") String pdfUrl) {
+    	Problem problem = new Problem();
+    	problem.setId(id);
+    	// would like to change next 3 to one "setSession()" 
+    	problem.setTitle(title);
+    	problem.setQuarter(quarter);
+    	problem.setYear(year);
+    	problem.setWeek(week);
+    	problem.setPdfUrl(pdfUrl);
+    	problemManager.updateProblem(problem);
+    	return problem;
+    } */
+
+    /** 
+     * Testing File upload
+     * 
+     * if you visit 
+     * 
+     * http://localhost:8080 /cs480/codesubmit
+     * 
+     * , you can see the upload page .
+     * 
+     * If the file was upload, 
+     * 
+     * it will show you the message
+     * 
+     *//*
+    @RequestMapping(value="/upload", method=RequestMethod.GET)
+    public @ResponseBody String provideUploadInfo() {
+        return "You can upload a file by posting to this same URL.";
+    }*/
+
+	@RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
+   public @ResponseBody ModelAndView handleFileUpload(
+		    @RequestParam("UserID") String id,
+    		@RequestParam("ProblemID") String promb,
+    		@RequestParam("Weeks") int weekNo,
+            @RequestParam("file") MultipartFile file){
+    	String name = null;                             
+    	String dir = System.getProperty("user.home") + "\\cs480\\";
+        if (!file.isEmpty()) {
+            try {
+            	
+            	User user = new User();
+            	name = file.getOriginalFilename();
+            	user.setId(id);
+            	user.setWeek(weekNo);
+            	user.setScore("-");
+            	user.setprob(promb);
+            	user.setStatus(true);
+            	user.setFileName(name);
+            	user.setFilePath(dir + name);
+            	user.setStat();
+            	userManager.updateUser(user);// add
+            	
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(dir + name)));
+                stream.write(bytes);
+                stream.close();
+
+                ModelAndView modelAndView = new ModelAndView("/codeSubmit");
+                
+                return modelAndView;
+            } catch (Exception e) {
+            	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " => " + e.getMessage());
+            	  return modelAndView;
+            }
+        } else {
+        	
+        	ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " because the file was empty.");
+        	return modelAndView;
+        }	
+
+    }
 
 }

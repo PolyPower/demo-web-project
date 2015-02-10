@@ -2,6 +2,8 @@ package edu.csupomona.cs480.data;
 
 import java.util.HashMap;
 
+import org.apache.commons.collections15.multimap.MultiHashMap;
+
 /**
  * This class is a HashMap, but we extend the HashMap
  * class so that we can rename it to something meaningful.

@@ -71,7 +71,7 @@
            						     <td>${user.week}</td>
              						 <td>${user.id}</td>
              						 <td>${user.prob}</td>
-            						 <td>${user.fileName}</td>
+            						 <td><a href = "http://localhost:8080/user/${user.id}/download ">${user.fileName}</td> 
  						             <td>${user.stat}</td>
              						 <td>${user.creationTime}</td>
         						     <td>${user.score}</td>
@@ -88,7 +88,7 @@
 		
 			
 		
-	<form method="POST" enctype = "multipart/form-data" action="cs480/codeSubmit" onSubmit="displayMsg()">  
+	<form method="POST" enctype = "multipart/form-data" action="/cs480/codeSubmit" onSubmit="displayMsg()">  
     	<table width="120">
     		<tr>
 				<td>UserID: </td>

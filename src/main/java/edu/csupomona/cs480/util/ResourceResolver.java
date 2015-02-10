@@ -17,7 +17,7 @@ public class ResourceResolver {
      * @return
      */
     public static File getUserFile() {
-        File file = new File(BASE_DIR + "/" + "user-map.json");
+        File file = new File(BASE_DIR + "/" + "Multi-map.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }

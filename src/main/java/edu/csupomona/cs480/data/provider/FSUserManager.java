@@ -101,7 +101,7 @@ public class FSUserManager implements UserManager {
 	@Override
 	public User getUser(String userId) {
 		UserMap userMap = getUserMap();
-        return userMap.get(userId);
+        return  userMap.get(userId);
 	}
 	
 
