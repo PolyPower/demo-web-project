@@ -25,7 +25,6 @@ public class SubmissionId {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return userId + ":" + weekNo;
 	}
 
