@@ -30,7 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.common.collect.*;
 
 import edu.csupomona.cs480.App;
+import edu.csupomona.cs480.data.Submission;
+import edu.csupomona.cs480.data.SubmissionId;
 import edu.csupomona.cs480.data.User;
+import edu.csupomona.cs480.data.provider.SubmissionManager;
 import edu.csupomona.cs480.data.provider.UserManager;
 import edu.csupomona.cs480.util.ResourceResolver;
 
@@ -44,9 +47,6 @@ import edu.csupomona.cs480.util.ResourceResolver;
 
 @RestController
 public class WebController {
-
-	// /////////////// All code between are examples from the professor
-	// //////////////
 
 	/**
 	 * When the class instance is annotated with {@link Autowired}, it will be
@@ -131,31 +131,105 @@ public class WebController {
 	List<User> listAllUsers() {
 		return userManager.listAllUsers();
 	}
-
-	// /////////////// All code between are examples from the professor
-	// //////////////
-
+	
 	@RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
 	List<User> listFiles() {
 		return userManager.listFiles();
 	}
-
-	/********************************** Testing for Problems **********************************/
-	/**
-	 * Below are all the methods that I am adding to work with displaying
-	 * Problems.
-	 */
-
+	
+	
+	/////// all the above code is an example from the professor ////////
+	
+	
 	/**
 	 * When the class instance is annotated with {@link Autowired}, it will be
 	 * looking for the actual instance from the defined beans.
-	 * 
-	 * @RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
-	 *                       List<User> listFiles() { return
-	 *                       userManager.listFiles(); }
-	 * 
-	 *                       /*********** Web UI Test Utility
-	 **********/
+	 * <p>
+	 * In our project, all the beans are defined in the {@link App} class.
+	 */
+	@Autowired
+	private SubmissionManager submissionManager;
+	
+	/**
+	 * This is a simple example of how to use a data manager 
+	 * to retrieve the data and return it as an HTTP response.
+	 * <p>
+	 * Note, when it returns from the Spring, it will be 
+	 * automatically converted to JSON format.
+	 * <p>
+	 * Try it in your web browser: http://localhost:8080/cs480/submission/kas/1
+	 */
+	@RequestMapping(value = "/cs480/submission/{userId}/{weekNo}", method = RequestMethod.GET)
+	Submission getSubmission(@PathVariable("userId") String userId,
+			@PathVariable("weekNo") int weekNo) {
+		SubmissionId submissionId = new SubmissionId(userId, weekNo);
+		Submission submission = submissionManager.getSubmission(submissionId);
+		return submission;
+	}
+	
+	/**
+	 * This is an example of sending an HTTP POST request to update a submission's
+	 * information (or create the submission if it does not exists before).
+	 *
+	 * You can test this with a HTTP client by sending
+	 * http://localhost:8080/cs480/submission/kas/1 ====*name=John major=CS*====
+	 *
+	 * Note, the URL will not work directly in browser, because it is not a GET
+	 * request. You need to use a tool such as postman.
+	 *
+	 * @param id
+	 * @param name
+	 * @param major
+	 * @return
+	 */
+	@RequestMapping(value = "/cs480/submission/{userId}/{weekNo}", method = RequestMethod.POST)
+	Submission updateSubmission(@PathVariable("userId") String userId,
+			@PathVariable("weekNo") int weekNo,
+			@RequestParam("uvaID") String uvaID,
+			@RequestParam("filePath") String filePath
+			/*@RequestParam(value = "sourceCode", required = false) MultipartFile sourceCode
+			/*@RequestParam("sourceCode") MultipartFile file*/) { // omitted status, sourceCode and score
+		
+		String filename = "";
+		
+		//if(!file.isEmpty()) {
+			//try {
+				//filename = file.getOriginalFilename();
+				Submission submission = new Submission();
+				submission.setSubmissionId(userId, weekNo);
+				submission.setUvaID(uvaID);
+				submission.setFilePath(filePath);
+				//submission.setSourceCode(file);
+				submission.setStatus(false); // hard-coded value
+				submission.setScore(0); // hard-coded value
+				submissionManager.updateSubmission(submission);
+				
+				/*byte[] bytes = file.getBytes();
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File(filename)));
+				stream.write(bytes);
+				stream.close(); */
+				
+				return submission;
+				
+			/**} catch(Exception e) {
+				return null; // file failed to upload
+				
+			}
+			
+			
+		} else {
+			return null; // uploaded empty file/no file
+			
+		} */
+	}
+	
+	
+
+	
+	
+	 /*********** Web UI Test Utility **********/
+	
 	/**
 	 * This method provide a simple web UI for you to test the different
 	 * functionalities used in this web service.
@@ -183,91 +257,8 @@ public class WebController {
 		return modelAndView;
 	}
 
-	/********************************** Testing for Problems **********************************/
-	/**
-	 * Below are all the methods that I am adding to work with displaying
-	 * Problems.
-	 */
 
-	/**
-	 * When the class instance is annotated with {@link Autowired}, it will be
-	 * looking for the actual instance from the defined beans.
-	 * <p>
-	 * In our project, all the beans are defined in the {@link App} class.
-	 */
-	// @Autowired
-	// private UserManager userManager;
 
-	/**
-	 * This is a simple example of how to use a data manager to retrieve the
-	 * data and return it as an HTTP response.
-	 * <p>
-	 * Note, when it returns from the Spring, it will be automatically converted
-	 * to JSON format.
-	 * <p>
-	 * Try it in your web browser: http://localhost:8080/cs480/problem/12709
-	 */
-	/*
-	 * @RequestMapping(value = "/cs480/problem/{problemId}", method =
-	 * RequestMethod.GET) Problem getProblem(@PathVariable("problemId") String
-	 * problemId) { Problem problem = problemManager.getProblem(problemId);
-	 * return problem; }
-	 */
-
-	/**
-	 * This is an example of sending an HTTP POST request to update a problem's
-	 * information (or create the problem if it doesn't exist yet).
-	 *
-	 * You can test this with a HTTP client by sending
-	 * http://localhost:8080/cs480/problem/12709 ==name=John major=CS==
-	 *
-	 * Note, the URL will not work directly in browser, because it is not a GET
-	 * request. You need to use a tool such as curl.
-	 *
-	 * @param id
-	 * @param name
-	 * @param major
-	 * @return
-	 */
-	/*
-	 * @RequestMapping(value = "/cs480/problem/{problemId}", method =
-	 * RequestMethod.POST) Problem updateProblem(
-	 * 
-	 * @PathVariable("problemId") String id,
-	 * 
-	 * @RequestParam(value = "title", required = false) String title,
-	 * 
-	 * @RequestParam("quarter") String quarter,
-	 * 
-	 * @RequestParam("year") String year,
-	 * 
-	 * @RequestParam("week") String week,
-	 * 
-	 * @RequestParam("pdfUrl") String pdfUrl) { Problem problem = new Problem();
-	 * problem.setId(id); // would like to change next 3 to one "setSession()"
-	 * problem.setTitle(title); problem.setQuarter(quarter);
-	 * problem.setYear(year); problem.setWeek(week); problem.setPdfUrl(pdfUrl);
-	 * problemManager.updateProblem(problem); return problem; }
-	 */
-
-	/**
-	 * Testing File upload
-	 * 
-	 * if you visit
-	 * 
-	 * http://localhost:8080 /cs480/codesubmit
-	 * 
-	 * , you can see the upload page .
-	 * 
-	 * If the file was upload,
-	 * 
-	 * it will show you the message
-	 * 
-	 */
-	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public @ResponseBody String provideUploadInfo() {
-		return "You can upload a file by posting to this same URL.";
-	}
 
 	/**
 	 * Download file, done
@@ -302,15 +293,6 @@ public class WebController {
 		response.flushBuffer();
 
 	}
-
-	/**
-	 * done, fix a list problem
-	 * 
-	 * @param id
-	 * @param promb
-	 * @param file
-	 * @return
-	 */
 
 	// @Autowired
 	// private UserManager userManager;
@@ -402,44 +384,9 @@ public class WebController {
 		return "Hello World! I created a HashTable whose values are accessible using two key values using Google Guava.";
 	}
     
-	 /**
-     * This is an example of sending an HTTP POST request to
-     * update a problem's information (or create the problem if 
-     * it doesn't exist yet).
-     *
-     * You can test this with a HTTP client by sending
-     *  http://localhost:8080/cs480/problem/12709
-     *  	==name=John major=CS==
-     *
-     * Note, the URL will not work directly in browser, because
-     * it is not a GET request. You need to use a tool such as
-     * curl.
-     *
-     * @param id
-     * @param name
-     * @param major
-     * @return
-     **/
- /** @RequestMapping(value = "/cs480/problem/{problemId}", method = RequestMethod.POST)
-    Problem updateProblem(
-    		@PathVariable("problemId") String id,
-    		@RequestParam(value = "title", required = false) String title,
-    		@RequestParam("quarter") String quarter,
-    		@RequestParam("year") String year,
-    		@RequestParam("week") String week,
-    		@RequestParam("pdfUrl") String pdfUrl) {
-    	Problem problem = new Problem();
-    	problem.setId(id);
-    	// would like to change next 3 to one "setSession()" 
-    	problem.setTitle(title);
-    	problem.setQuarter(quarter);
-    	problem.setYear(year);
-    	problem.setWeek(week);
-    	problem.setPdfUrl(pdfUrl);
-    	problemManager.updateProblem(problem);
-    	return problem;
-    } */
 
+
+	
     /** 
      * Testing File upload
      * 

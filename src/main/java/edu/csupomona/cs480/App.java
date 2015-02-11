@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import edu.csupomona.cs480.data.provider.FSSubmissionManager;
 import edu.csupomona.cs480.data.provider.FSUserManager;
+import edu.csupomona.cs480.data.provider.SubmissionManager;
 import edu.csupomona.cs480.data.provider.UserManager;
 
 
@@ -15,6 +17,8 @@ import edu.csupomona.cs480.data.provider.UserManager;
 @ComponentScan
 public class App {
 
+	////////// this is from the teacher's example ////////////
+	
     /**
      * This is a good example of how Spring instantiates
      * objects. The instances generated from this method
@@ -25,6 +29,21 @@ public class App {
     public UserManager userManager() {
         UserManager userManager = new FSUserManager();
         return userManager;
+    }
+    
+    ////////// above is from the teacher's example ///////////
+    
+    
+    /**
+     * This is a good example of how Spring instantiates
+     * objects. The instances generated from this method
+     * will be used in this project, where the Autowired
+     * annotation is applied.
+     */
+    @Bean
+    public SubmissionManager submissionManager() {
+        SubmissionManager submissionManager = new FSSubmissionManager();
+        return submissionManager;
     }
  
     /**
