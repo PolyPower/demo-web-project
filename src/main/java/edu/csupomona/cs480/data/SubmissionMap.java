@@ -1,6 +1,8 @@
 package edu.csupomona.cs480.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -17,6 +19,6 @@ import java.util.Map;
  *
  */
 @SuppressWarnings("serial")
-public class SubmissionMap extends HashMap<SubmissionId, Submission> {
+public class SubmissionMap extends HashMap<String, ArrayList<Submission>> {
 	
 }

@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -160,11 +161,10 @@ public class WebController {
 	 * Try it in your web browser: http://localhost:8080/cs480/submission/kas/1
 	 */
 	@RequestMapping(value = "/cs480/submission/{userId}/{weekNo}", method = RequestMethod.GET)
-	Submission getSubmission(@PathVariable("userId") String userId,
+	ArrayList<Submission> getSubmissions(@PathVariable("userId") String userId,
 			@PathVariable("weekNo") int weekNo) {
-		SubmissionId submissionId = new SubmissionId(userId, weekNo);
-		Submission submission = submissionManager.getSubmission(submissionId);
-		return submission;
+		ArrayList<Submission> submissionList = submissionManager.getSubmissions(userId);
+		return submissionList;
 	}
 	
 	/**
@@ -186,42 +186,27 @@ public class WebController {
 	Submission updateSubmission(@PathVariable("userId") String userId,
 			@PathVariable("weekNo") int weekNo,
 			@RequestParam("uvaID") String uvaID,
-			@RequestParam("filePath") String filePath
-			/*@RequestParam(value = "sourceCode", required = false) MultipartFile sourceCode
-			/*@RequestParam("sourceCode") MultipartFile file*/) { // omitted status, sourceCode and score
+			@RequestParam("filePath") String filePath) { // omitted: status, sourceCode, score
 		
-		String filename = "";
+		//String filename = "";
 		
-		//if(!file.isEmpty()) {
-			//try {
-				//filename = file.getOriginalFilename();
-				Submission submission = new Submission();
-				submission.setSubmissionId(userId, weekNo);
-				submission.setUvaID(uvaID);
-				submission.setFilePath(filePath);
-				//submission.setSourceCode(file);
-				submission.setStatus(false); // hard-coded value
-				submission.setScore(0); // hard-coded value
-				submissionManager.updateSubmission(submission);
-				
-				/*byte[] bytes = file.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(filename)));
-				stream.write(bytes);
-				stream.close(); */
-				
-				return submission;
-				
-			/**} catch(Exception e) {
-				return null; // file failed to upload
-				
-			}
-			
-			
-		} else {
-			return null; // uploaded empty file/no file
-			
-		} */
+		Submission submission = new Submission();
+		submission.setUserId(userId);
+		submission.setWeekNo(weekNo);
+		submission.setUvaID(uvaID);
+		submission.setFilePath(filePath);
+		//submission.setSourceCode(file);
+		submission.setStatus(false); // hard-coded value
+		submission.setScore(0); // hard-coded value
+		submissionManager.updateSubmissionList(submission);
+		
+		/*byte[] bytes = file.getBytes();
+		BufferedOutputStream stream = new BufferedOutputStream(
+				new FileOutputStream(new File(filename)));
+		stream.write(bytes);
+		stream.close(); */
+		
+		return submission;
 	}
 	
 	
@@ -407,7 +392,7 @@ public class WebController {
     }*/
 
 	@RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
-   public @ResponseBody ModelAndView handleFileUpload(
+	public @ResponseBody ModelAndView handleFileUpload(
 		    @RequestParam("UserID") String id,
     		@RequestParam("ProblemID") String promb,
     		@RequestParam("Weeks") int weekNo,
@@ -436,7 +421,6 @@ public class WebController {
                 stream.close();
 
                 ModelAndView modelAndView = new ModelAndView("/codeSubmit");
-                
                 return modelAndView;
             } catch (Exception e) {
             	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " => " + e.getMessage());

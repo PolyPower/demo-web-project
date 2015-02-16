@@ -11,7 +11,18 @@ import org.springframework.web.multipart.MultipartFile;
 public class Submission {
 	
 	
-	private SubmissionId submissionId;
+	//private SubmissionId submissionId;
+	
+	/**
+	 * The user's self-defined user ID. Ideally, the user
+	 * would use the same user ID every time.
+	 */
+	private String userId;
+
+	/**
+	 * The week number that corresponds to this submission.
+	 */
+	private int weekNo;
 
 	/**
 	 * The UVa problem ID that corresponds to the problem answered
@@ -46,24 +57,20 @@ public class Submission {
 	 */
 	private String creationTime = new Date(System.currentTimeMillis()).toString();
 
-
-	public SubmissionId getSubmissionId() {
-		return submissionId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setSubmissionId(String userId, int weekNo) {
-		this.submissionId = new SubmissionId(userId, weekNo);
-	}	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	public int getWeekNo() {
-		return submissionId.getWeekNo();
+		return weekNo;
 	}
 
-	public String getUserId() {
-		return submissionId.getUserId();
-	}
-	public String getUvaID() {
-		return uvaID;
+	public void setWeekNo(int weekNo) {
+		this.weekNo = weekNo;
 	}
 
 	public void setUvaID(String uvaID) {

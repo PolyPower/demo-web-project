@@ -1,5 +1,6 @@
 package edu.csupomona.cs480.data.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.csupomona.cs480.data.Submission;
@@ -10,49 +11,49 @@ public interface SubmissionManager {
 
 	/**
 	 * Get the submission information object based on
-	 * the given submissionId.
+	 * the given userId.
 	 * <p>
-	 * If the submission does not exist, simply create
-	 * one.
+	 * If the user does not exist, simply create
+	 * one with a new Submission record.
 	 *
-	 * @param submissionId
-	 * @return the Submission object
+	 * @param userId
+	 * @return List<Submission> 
 	 */
-	public Submission getSubmission(SubmissionId submissionId);
-
+	public ArrayList<Submission> getSubmissions(String userId);
 
 	/**
-	 * Update the given submission object and persist it.
+	 * Update the given submission list and persist it.
 	 * <p>
-	 * If the submission does not exist before, this
-	 * method will create a new record; otherwise,
-	 * it will overwrite whatever is currently
-	 * being stored.
+	 * If the submission does not exist in the list, or
+	 * if the list does not exist for this user all together, 
+	 * the method will create a new record/list. Otherwise, 
+	 * it will add the new submission to the user's submission 
+	 * list.
 	 *
-	 * @param user object
+	 * @param Submission object
 	 */
-	public void updateSubmission(Submission submission);
+	public void updateSubmissionList(Submission submission);
 
 	/**
 	 * Delete the given submission from the storage.
 	 *
 	 * @param submissionId
 	 */
-	public void deleteSubmission(SubmissionId submissionId);
+	public void deleteSubmission(Submission submission);
 
 	/**
 	 * List all the current submissions in the storage.
 	 *
 	 * @return List of Submissions
 	 */
-	public List<Submission> listAllSubmissions();
+	public ArrayList<Submission> listAllSubmissionsInStorage();
 	
 	/**
 	 * List all the current source code files in the storage.
 	 * 
 	 * @return List of file names
 	 */
-	public List<Submission> listFiles();
+	public ArrayList<Submission> listFiles();
 
 
 

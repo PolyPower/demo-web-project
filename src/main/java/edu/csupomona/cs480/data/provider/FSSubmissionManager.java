@@ -80,36 +80,103 @@ public class FSSubmissionManager implements SubmissionManager {
         } 
 	}
 
+	/**
+	 * Retrieves all submissions for one particular user.
+	 * 
+	 * @return A list of the user's submissions
+	 */
 	@Override
-	public Submission getSubmission(SubmissionId submissionId) {
+	public ArrayList<Submission> getSubmissions(String userId) {
 		SubmissionMap submissionMap = getSubmissionMap();
-        return submissionMap.get(submissionId);
+        return submissionMap.get(userId);
 	}
 	
 
+	/**
+	 * Update the given submission list and persist it.
+	 * <p>
+	 * If the submission does not exist in the list, or
+	 * if the list does not exist for this user all together, 
+	 * the method will create a new record/list. Otherwise, 
+	 * it will add the new submission to the user's submission 
+	 * list.
+	 *
+	 * @param Submission object
+	 */
 	@Override
-	public void updateSubmission(Submission submission) {
+	public void updateSubmissionList(Submission submission) {
+		// get all submissions in the file system.
 		SubmissionMap submissionMap = getSubmissionMap();
-		submissionMap.put(submission.getSubmissionId(), submission);
+		
+		// for the user that just made a submission, retrieve his
+		// or her submission list.
+		ArrayList<Submission> submissionList = submissionMap.get(submission.getUserId());
+		
+		// if the user has a previous record, update his/her submission list.
+		if(submissionList != null) {
+			
+			// add the submission to the list
+			submissionList.add(submission);
+			
+			// put the list into the submission map
+			submissionMap.put(submission.getUserId(), submissionList);
+		}
+		
+		// else, create a new record.
+		else {
+			submissionList = new ArrayList<Submission>();
+			submissionList.add(submission);
+			submissionMap.put(submission.getUserId(), submissionList);
+		}
+		
 		persistSubmissionMap(submissionMap);
+		
 	}
 
 	@Override
-	public void deleteSubmission(SubmissionId submissionId) {
+	public void deleteSubmission(Submission submission) {
 		SubmissionMap submissionMap = getSubmissionMap();
-		submissionMap.remove(submissionId);
-		persistSubmissionMap(submissionMap);
+		ArrayList<Submission> submissionList = submissionMap.get(submission.getUserId());
+		
+		// if the user has a previous record, update his/her submission list.
+		if(submissionList != null) {
+			
+			// remove the submission from the list
+			submissionList.remove(submission);
+			
+			// put the list into the submission map
+			submissionMap.put(submission.getUserId(), submissionList);
+			persistSubmissionMap(submissionMap);
+		}
+		
+		// else, there is nothing to remove
+		else {
+			System.out.println("This user does not exist");
+		}
 	}
 	
+	/**
+	 * List all the current submissions in the storage.
+	 *
+	 * @return List of Submissions
+	 */
 	@Override
-	public List<Submission> listAllSubmissions() {
+	public ArrayList<Submission> listAllSubmissionsInStorage() {
 		SubmissionMap submissionMap = getSubmissionMap();
-		return new ArrayList<Submission>(submissionMap.values());
+		ArrayList<Submission> allSubmissionsInStorage = new ArrayList<Submission>();
+		
+		for (String key : submissionMap.keySet()) {
+		    allSubmissionsInStorage.addAll(submissionMap.get(key));
+		}
+		return allSubmissionsInStorage;
 	}
+	
+	
 	@Override
-	public List<Submission> listFiles() {
+	public ArrayList<Submission> listFiles() {
 		SubmissionMap submissionMap = getSubmissionMap();
-		return new ArrayList<Submission>(submissionMap.values());
+		
+		return null/*new ArrayList<Submission>(submissionMap.values())*/;
 	}
 	
 	
