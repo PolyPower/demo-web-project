@@ -1,4 +1,4 @@
-﻿package edu.csupomona.cs480.controller;
+package edu.csupomona.cs480.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
