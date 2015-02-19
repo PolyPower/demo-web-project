@@ -1,5 +1,4 @@
 ﻿package edu.csupomona.cs480.controller;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -137,7 +136,10 @@ public class WebController {
 	List<User> listFiles() {
 		return userManager.listFiles();
 	}
-	
+	@RequestMapping(value = "/cs480/users/score", method = RequestMethod.GET)
+	List<User> listScores() {
+		return userManager.listScores();
+	}
 	
 	/////// all the above code is an example from the professor ////////
 	
@@ -255,6 +257,14 @@ public class WebController {
 
 		return modelAndView;
 	}
+	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.GET)
+	ModelAndView getAdmin() {
+		ModelAndView modelAndView = new ModelAndView("AdminHome");
+		modelAndView.addObject("users", listAllUsers());
+		modelAndView.addObject("files ", listFiles());
+	//	modelAndView.addObject("scores ", listScores());
+		return modelAndView;
+	}
 
 
 
@@ -302,6 +312,21 @@ public class WebController {
 		return "Hello World! I created a HashTable whose values are accessible using two key values using Google Guava.";
 	}
     
+	@RequestMapping(value="/cs480/AdminHome", method=RequestMethod.POST)
+	public @ResponseBody ModelAndView scoreSubmission(
+			@RequestParam("Score") String score,
+			@RequestParam("UserID") String id)
+	{
+		//User user= userManager.getUser(id);
+		User user = new User();
+		user.setScore(score);
+		userManager.updateUser(user);
+        ModelAndView modelAndView = new ModelAndView("/AdminHome");
+        modelAndView.addObject("scores", listAllUsers());
+	//	modelAndView.addObject("files ", listFiles());
+      
+		return modelAndView;
+	}
 
 
 	@RequestMapping(value="/cs480/codeSubmit", method=RequestMethod.POST)
@@ -319,7 +344,6 @@ public class WebController {
             	name = file.getOriginalFilename();
             	user.setId(id);
             	user.setWeek(weekNo);
-            	user.setScore("-");
             	user.setprob(promb);
             	user.setStatus(true);
             	user.setFileName(name);
@@ -340,7 +364,7 @@ public class WebController {
             } catch (Exception e) {
             	  ModelAndView modelAndView = new ModelAndView("You failed to upload "  + " => " + e.getMessage());
             	  modelAndView.addObject("users", listAllUsers());
-          			modelAndView.addObject("files ", listFiles());
+          		  modelAndView.addObject("files ", listFiles());
             	  return modelAndView;
             }
         } else {
