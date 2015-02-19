@@ -32,7 +32,6 @@ function deleteUser(userId) {
 }
 function submitCode()
 {
-
 	var userId = $('#input_id').val();
 	var userprob = $('#input_prob').val();
 	var userfile = $('#input_file').val();
