@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.csupomona.cs480.data.Submission;
-import edu.csupomona.cs480.data.SubmissionId;
 import edu.csupomona.cs480.data.User;
 
 public interface SubmissionManager {

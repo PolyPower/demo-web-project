@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import edu.csupomona.cs480.data.Submission;
-import edu.csupomona.cs480.data.SubmissionId;
 import edu.csupomona.cs480.data.SubmissionMap;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.UserMap;
@@ -52,12 +51,11 @@ public class FSSubmissionManager implements SubmissionManager {
 	private SubmissionMap getSubmissionMap() {
 		SubmissionMap submissionMap = null;
 		File submissionFile = ResourceResolver.getSubmissionFile();
-		JavaType java = JSON.getTypeFactory().constructCollectionLikeType(SubmissionMap.class, Submission.class);
-        if (submissionFile.exists()) {
+		if (submissionFile.exists()) {
         	// read the file and convert the JSON content
         	// to the SubmissionMap object
             try {
-				submissionMap = JSON.readValue(submissionFile, java);
+				submissionMap = JSON.readValue(submissionFile, SubmissionMap.class);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

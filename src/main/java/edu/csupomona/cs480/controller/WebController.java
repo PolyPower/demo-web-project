@@ -35,7 +35,6 @@ import com.google.common.collect.*;
 
 import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.Submission;
-import edu.csupomona.cs480.data.SubmissionId;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.provider.SubmissionManager;
 import edu.csupomona.cs480.data.provider.UserManager;
@@ -164,57 +163,48 @@ public class WebController {
 	 * Note, when it returns from the Spring, it will be automatically converted
 	 * to JSON format.
 	 * <p>
-	 * Try it in your web browser: http://localhost:8080/cs480/submission/kas/1
+	 * Try it in your web browser: http://localhost:8080/cs480/submission/kas/
 	 */
-	@RequestMapping(value = "/cs480/submission/{userId}/{weekNo}", method = RequestMethod.GET)
-	ArrayList<Submission> getSubmissions(@PathVariable("userId") String userId,
-			@PathVariable("weekNo") int weekNo) {
-		ArrayList<Submission> submissionList = submissionManager
-				.getSubmissions(userId);
+	@RequestMapping(value = "/submit/{userId}", method = RequestMethod.GET)
+	ArrayList<Submission> getSubmissions(@PathVariable("userId") String userId) {
+		ArrayList<Submission> submissionList = submissionManager.getSubmissions(userId);
 		return submissionList;
 	}
 
 	/**
 	 * This is an example of sending an HTTP POST request to update a
-	 * submission's information (or create the submission if it does not exists
-	 * before).
+	 * user's submissions (or create the submission record  if it did 
+	 * not exist before).
 	 *
 	 * You can test this with a HTTP client by sending
-	 * http://localhost:8080/cs480/submission/kas/1 ====*name=John major=CS*====
+	 * http://localhost:8080/cs480/submission/kas/1
 	 *
 	 * Note, the URL will not work directly in browser, because it is not a GET
 	 * request. You need to use a tool such as postman.
 	 *
-	 * @param id
-	 * @param name
-	 * @param major
+	 * @param userId
+	 * @param weekNo
+	 * @param uvaID
+	 * @param filePath
+	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/cs480/submission/{userId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/submit/{userId}/{weekNo}", method = RequestMethod.POST)
 	Submission updateSubmission(@PathVariable("userId") String userId,
-			@RequestParam("weekNo") int weekNo,
+			@PathVariable("weekNo") int weekNo,
 			@RequestParam("uvaID") String uvaID,
 			@RequestParam("filePath") String filePath,
-			@RequestParam("file") MultipartFile file) { // omitted: status,
-														// sourceCode, score
-
-		// String filename = "";
+			@RequestParam("file") MultipartFile file) { 
 
 		Submission submission = new Submission();
 		submission.setUserId(userId);
 		submission.setWeekNo(weekNo);
 		submission.setUvaID(uvaID);
 		submission.setFilePath(filePath);
-		// submission.setSourceCode(file);
 		submission.setStatus(false); // hard-coded value
 		submission.setScore(0); // hard-coded value
+		System.out.println("about to update list");
 		submissionManager.updateSubmissionList(submission);
-
-		/*
-		 * byte[] bytes = file.getBytes(); BufferedOutputStream stream = new
-		 * BufferedOutputStream( new FileOutputStream(new File(filename)));
-		 * stream.write(bytes); stream.close();
-		 */
 
 		return submission;
 	}
@@ -246,6 +236,8 @@ public class WebController {
 		return modelAndView;
 	}
 
+	
+	
 	/*********** Web UI Test Utility **********/
 	/**
 	 * This method provide a simple web UI for you to test the different
@@ -317,15 +309,6 @@ public class WebController {
 
 	}
 
-	/**
-	 * Khamille's contribution for Assignment 5: HashBasedTable using Google
-	 * Guava.
-	 */
-	@RequestMapping(value = "/cs480/guava", method = RequestMethod.GET)
-	public String guava() {
-		HashBasedTable twoKeyMap = HashBasedTable.create();
-		return "Hello World! I created a HashTable whose values are accessible using two key values using Google Guava.";
-	}
 
 	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.POST)
 	public @ResponseBody ModelAndView handleFileUpload(
