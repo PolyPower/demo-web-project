@@ -44,5 +44,6 @@ public interface UserManager {
 	 */
 	public List<User> listAllUsers();
 	public List<User> listFiles();
+	public List<User> listScores();
 
 }

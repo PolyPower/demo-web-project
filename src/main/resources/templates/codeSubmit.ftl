@@ -74,7 +74,8 @@
             						 <td><a href = "http://localhost:8080/user/${user.id}/download ">${user.fileName}</td> 
  						             <td>${user.stat}</td>
              						 <td>${user.creationTime}</td>
-        						     <td>${user.score}</td>
+             						 <td>${user.score}</td}
+        						     
           						</tr>
        					</#list>
                </table>
@@ -106,10 +107,7 @@
 			    <option value="3">Week 3</option>
 			    <option value="4">Week 4</option>
 			    <option value="5">Week 5</option>
-			    </select></td>
-			    
-			    
-  
+			    </select></td>  
 			</tr>
 
 				</tr>

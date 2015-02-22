@@ -3,6 +3,8 @@ package edu.csupomona.cs480.data;
 import java.io.FileInputStream;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,22 +16,15 @@ public class User {
 
 	/** The unique user Id */
 	private String id;
-	/** The unique user Id */
-	private String name;
-	/** The unique user Id */
-
-	private String major;
 	/** The timestamp when the user is being created */
 	private String creationTime = new Date(System.currentTimeMillis())
 			.toString();
-
 	private boolean status;
 	private String prob;
 	private String stat;
 	private String fileName;
 	private int week;
 	private String score;
-	private MultipartFile file;
 
 	public String getId() {
 		return id;
@@ -38,7 +33,7 @@ public class User {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getCreationTime() {
 		return creationTime;
 	}
@@ -61,14 +56,6 @@ public class User {
 
 	public void setStatus(boolean status) {
 		this.status = status;
-	}
-
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
 	}
 
 	public String getprob() {
@@ -112,7 +99,19 @@ public class User {
 	}
 
 	public void setScore(String score) {
-		this.score = score;
+		if (this.score == null || isNumeric(score)) {
+			this.score = score;
+		} else {
+			System.out.println("invalid");
+		}
 	}
 
+	public static boolean isNumeric(String str) {
+		try {
+			int d = Integer.parseInt(str);
+			return true;
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+	}
 }

@@ -46,28 +46,37 @@
     </div>
     <br><br><br><br><br>
 	
-    <form id="login" action="codeSubmit.ftl" method="POST">    
-    	<fieldset>
+    <form name="login" method="post">    
+    
     	   		<legend><strong>Login</strong> </legend>
     	  		<table>
     	  			<tr>
     	  				<td> UserName: </td>
-    	   				<td><input type="text" name="username" id="username"> </td>
-    	   				
-    	   			</tr>
-    	   			<tr>
-    	   				<td> Password: </td>
-    	   				<td><input type="password" name="password" id="password"> </td>
+    	   				<td><input type="text" name="userId"> </td>    	   				
     	   			</tr>
     	   			<tr>
     	   				<td></td>
-    	   				<td><input type="reset" value="Reset"></td>
-    	   				<td><input type="submit" name="Submit" value="Submit"></td>
+    	   				<td><input type="reset" value="Cancel"></td>
+    	   				<td><input type="button" onclick="return check(this.form)" value="Login"></td>
     	   				
     	   			</tr>	
     	   		</table>
-    	</fieldest>  
+    	 
     </form>
+    
+    <script language="javascript">
+    	function check(form)
+    	{
+    		
+    		if(form.userId.value == "hs")
+    		{
+    			window.open('codeSubmit.ftl')
+    		}
+    		else{
+    		alert("Invalid userid")
+    		}
+    
+    </script>
       
 </body>
 
