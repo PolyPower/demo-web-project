@@ -75,33 +75,25 @@
  						             <td>${user.stat}</td>
              						 <td>${user.creationTime}</td>
              						 <td>${user.score}</td}
-        						     
+      						  
           						</tr>
        					</#list>
                </table>
                </div>
-               
-               <hr>
-               
-               <div>
-               	<br><br>
-		
-		
-			
+              <hr>
+            <div>
+     	<br><br>
 		
 	<form method="POST" enctype = "multipart/form-data" action="/cs480/codeSubmit" onSubmit="displayMsg()">  
     	<table width="120">
     		<tr>
 				<td>UserID: </td>
-				<td><input type="text" name="UserID"> </td>
+				<td><input type="text" name="UserID" pattern="[a-z0-9._%+-]+@[cpp]+\.[edu]{3}$"> </td>
 			<tr>	
 				
-			<tr>
-				<td>ProblemID: </td>	
-				<td><input type="text" name="ProblemID"></td>
-			</tr>    
+			   
 			    <td>Week: </td>
-			    <td><select name = "Weeks">
+			    <td><select  id="mySelect"name="Weeks" onchange="selectWeek()">
 			    <option value="1">Week 1</option>
 			    <option value="2">Week 2</option>
 			    <option value="3">Week 3</option>
@@ -109,11 +101,14 @@
 			    <option value="5">Week 5</option>
 			    </select></td>  
 			</tr>
-
-				</tr>
+			<tr>
+				<td>ProblemID: </td>	
+				<td><textarea rows="" cols="7" id="prob" name="ProblemID"> </textarea></td>
+			</tr> 
 				
     		<input type="file" name="file" size="40">
-    		<input type="submit" onClick="diplayMsg()" value="Upload">
+    		<input type="submit" onClick="displayMsg()" value="Upload">
+    		
         
     </form>
 	
@@ -126,6 +121,14 @@
 
 	function displayMsg(){
 		alert("You successfully uploaded!");
+	}
+	
+	function selectWeek()
+	{
+		var probId = ["98989", "2323", "4545", "4566", "12345"];
+		var x =  document.getElementById("mySelect").selectedIndex;
+		document.getElementById("prob").innerHTML = probId[x];
+	
 	}
 </script>
     
