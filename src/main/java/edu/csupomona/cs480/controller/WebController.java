@@ -216,10 +216,9 @@ public class WebController {
      * This method provide a simple web UI for you to test the different
      * functionalities used in this web service.
      */
-    @RequestMapping(value = "/cs480/submitCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/cs480/upload", method = RequestMethod.GET)
     ModelAndView getSubmitPage() {
-        ModelAndView modelAndView = new ModelAndView("home");
-        modelAndView.addObject("users", listAllUsers());
+        ModelAndView modelAndView = new ModelAndView("upload-form");
         return modelAndView;
     }
 	
