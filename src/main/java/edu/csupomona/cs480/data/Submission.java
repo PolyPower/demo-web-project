@@ -31,6 +31,11 @@ public class Submission {
 	private String uvaID;
 	
 	/**
+	 * The filename of the user's uploaded code.
+	 */
+	private String fileName;
+	
+	/**
 	 * The filepath of the user's uploaded code.
 	 */
 	private String filePath;
@@ -73,16 +78,28 @@ public class Submission {
 		this.weekNo = weekNo;
 	}
 
+	public String getUvaID() {
+		return uvaID;
+	}
+	
 	public void setUvaID(String uvaID) {
 		this.uvaID = uvaID;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 	public String getFilePath() {
 		return filePath;
 	}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setFilePath(String fileName) {
+		this.filePath = fileName;
 	}
 
 	public MultipartFile getSourceCode() {

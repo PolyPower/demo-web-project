@@ -164,9 +164,8 @@ public class FSSubmissionManager implements SubmissionManager {
 	public ArrayList<Submission> listAllSubmissionsInStorage() {
 		SubmissionMap submissionMap = getSubmissionMap();
 		ArrayList<Submission> allSubmissionsInStorage = new ArrayList<Submission>();
-		
 		for (String key : submissionMap.keySet()) {
-		    allSubmissionsInStorage.addAll(submissionMap.get(key));
+			allSubmissionsInStorage.addAll(submissionMap.get(key));
 		}
 		return allSubmissionsInStorage;
 	}

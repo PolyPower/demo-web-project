@@ -132,6 +132,7 @@ public class WebController {
 	 */
 	@RequestMapping(value = "/cs480/users/list", method = RequestMethod.GET)
 	List<User> listAllUsers() {
+		System.out.println("All the user's");
 		return userManager.listAllUsers();
 	}
 
@@ -156,21 +157,36 @@ public class WebController {
 	@Autowired
 	private SubmissionManager submissionManager;
 
-	/**
-	 * This is a simple example of how to use a data manager to retrieve the
-	 * data and return it as an HTTP response.
-	 * <p>
-	 * Note, when it returns from the Spring, it will be automatically converted
-	 * to JSON format.
-	 * <p>
-	 * Try it in your web browser: http://localhost:8080/cs480/submission/kas/
-	 */
-	@RequestMapping(value = "/submit/{userId}", method = RequestMethod.GET)
-	ArrayList<Submission> getSubmissions(@PathVariable("userId") String userId) {
-		ArrayList<Submission> submissionList = submissionManager.getSubmissions(userId);
-		return submissionList;
-	}
 
+	/**
+	 * This API lists all the submissions for a specified user
+	 * in the current file system.
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/list/{userId}/admin-view", method = RequestMethod.GET)
+	ArrayList<Submission> listSubmissionsForUser(@PathVariable("userId") String userId) {
+		return submissionManager.getSubmissions(userId);
+	}
+	
+	/*********** Web UI Test Utility for Submission List **********/
+	/**
+	 * This method provide a simple web UI for you to test the different
+	 * functionalities used in this web service.
+	 */
+	@RequestMapping(value = "/list/{userId}", method = RequestMethod.GET)
+	ModelAndView getUsersSubmissions(@PathVariable("userId") String userId) {
+		ModelAndView modelAndView = new ModelAndView("list");
+		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/submit", method = RequestMethod.GET)
+	ModelAndView getUsersSubmissions() {
+		ModelAndView modelAndView = new ModelAndView("upload-form");
+		return modelAndView;
+	}
+	
 	/**
 	 * This is an example of sending an HTTP POST request to update a
 	 * user's submissions (or create the submission record  if it did 
@@ -189,55 +205,51 @@ public class WebController {
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/submit/{userId}/{weekNo}", method = RequestMethod.POST)
-	Submission updateSubmission(@PathVariable("userId") String userId,
-			@PathVariable("weekNo") int weekNo,
+	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	ModelAndView updateSubmission(@RequestParam("userId") String userId,
+			@RequestParam("weekNo") int weekNo,
 			@RequestParam("uvaID") String uvaID,
-			@RequestParam("filePath") String filePath,
 			@RequestParam("file") MultipartFile file) { 
+	
+		String name = null;
+		String dir = System.getProperty("user.home") + "/cs480/";
+		if (!file.isEmpty()) {
+			try {
+				Submission submission = new Submission();
+				name = file.getOriginalFilename();
+				submission.setUserId(userId);
+				submission.setWeekNo(weekNo);
+				submission.setUvaID(uvaID);
+				submission.setFileName(name);
+				submission.setFilePath(dir + name);
+				submission.setStatus(false); // hard-coded value
+				submission.setScore(0); // hard-coded value
+				submissionManager.updateSubmissionList(submission);
+			
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File(dir + name)));
+				stream.write(bytes);
+				stream.close();
+	
+				ModelAndView modelAndView = new ModelAndView("upload-form");
+				return modelAndView;
+				
+			} catch (Exception e) {
+				
+				ModelAndView modelAndView = new ModelAndView("upload-form");
+				return modelAndView;
+			}
+			
+		} else {
+			
+			ModelAndView modelAndView = new ModelAndView("upload-form");
+			return modelAndView;
+		}
 
-		Submission submission = new Submission();
-		submission.setUserId(userId);
-		submission.setWeekNo(weekNo);
-		submission.setUvaID(uvaID);
-		submission.setFilePath(filePath);
-		submission.setStatus(false); // hard-coded value
-		submission.setScore(0); // hard-coded value
-		System.out.println("about to update list");
-		submissionManager.updateSubmissionList(submission);
-
-		return submission;
+	
 	}
 
-	
-	
-	 /*********** Web UI Test Utility for Submission List **********/
-    /**
-     * This method provide a simple web UI for you to test the different
-     * functionalities used in this web service.
-     */
-    @RequestMapping(value = "/cs480/upload", method = RequestMethod.GET)
-    ModelAndView getSubmissionPage() {
-        ModelAndView modelAndView = new ModelAndView("upload-form");
-        return modelAndView;
-    }
-	
-	
-
-	/*********** Web UI Test Utility for Submission List **********/
-	/**
-	 * This method provide a simple web UI for you to test the different
-	 * functionalities used in this web service.
-	 */
-	@RequestMapping(value = "/cs480/submitCode", method = RequestMethod.GET)
-	ModelAndView getSubmitPage() {
-		ModelAndView modelAndView = new ModelAndView("home");
-		modelAndView.addObject("users", listAllUsers());
-		return modelAndView;
-	}
-
-	
-	
 	/*********** Web UI Test Utility **********/
 	/**
 	 * This method provide a simple web UI for you to test the different
@@ -254,7 +266,6 @@ public class WebController {
 	ModelAndView getUsercodeSubmit() {
 		ModelAndView modelAndView = new ModelAndView("codeSubmit");
 		modelAndView.addObject("users", listAllUsers());
-
 		return modelAndView;
 	}
 
