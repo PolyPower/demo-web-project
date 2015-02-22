@@ -35,27 +35,24 @@ public class Submission {
 	 */
 	private String filePath;
 	
-	/**
-	 * The actual file object of the submission.
-	 */
-	private MultipartFile sourceCode;
-	
+
 	/**
 	 * The status of the user's submission. Values can either be
 	 * 'Submitted' or 'Reviewed' and can only change from Submitted
 	 * to Reviewed by the Admin.
 	 */
-	private boolean status; 
+	private String status; 
 	
 	/** 
 	 * According to the Admin, this is the submission's score.
 	 */
-	private int score;
+	private String score;
 	
 	/**
 	 * The timestamp when the code was submitted.
 	 */
 	private String creationTime = new Date(System.currentTimeMillis()).toString();
+	private String fileName;
 
 	public String getUserId() {
 		return userId;
@@ -77,6 +74,9 @@ public class Submission {
 		this.uvaID = uvaID;
 	}
 
+	public String getUvaId(){
+		return uvaID;
+	}
 	public String getFilePath() {
 		return filePath;
 	}
@@ -85,28 +85,28 @@ public class Submission {
 		this.filePath = filePath;
 	}
 
-	public MultipartFile getSourceCode() {
-		return sourceCode;
-	}
-
-	public void setSourceCode(MultipartFile sourceCode) {
-		this.sourceCode = sourceCode;
-	}
-
-	public boolean isStatus() {
+	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(boolean status) {
-		this.status = status;
+		if (status) {
+			this.status = "Submitted";
+		} else {
+			this.status = "unSubmitted";
+		}
 	}
 
-	public int getScore() {
+	public String getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void setScore(String score) {
+		if (this.score == null || isNumeric(score)) {
+			this.score = score;
+		} else {
+			System.out.println("invalid");
+		}
 	}
 
 	public String getCreationTime() {
@@ -117,5 +117,21 @@ public class Submission {
 		this.creationTime = creationTime;
 	}
 	
+	public static boolean isNumeric(String str) {
+		try {
+			int d = Integer.parseInt(str);
+			return true;
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 }

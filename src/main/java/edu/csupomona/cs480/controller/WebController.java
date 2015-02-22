@@ -202,7 +202,7 @@ public class WebController {
 		submission.setUvaID(uvaID);
 		submission.setFilePath(filePath);
 		submission.setStatus(false); // hard-coded value
-		submission.setScore(0); // hard-coded value
+		//submission.setScore(0); // hard-coded value
 		System.out.println("about to update list");
 		submissionManager.updateSubmissionList(submission);
 
@@ -332,6 +332,8 @@ public class WebController {
 				user.setStat();
 				user.setScore("-");
 				userManager.updateUser(user);// add
+
+		
 
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
