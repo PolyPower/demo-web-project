@@ -71,11 +71,11 @@
 			<th> Week </th>
 			<th> UserID </th>
 			<th> ProbemID </th>
-			<th> Description </th>
 			<th> File </th>
 			<th> Status </th>
 			<th> Date </th>
 			<th> Score </th>
+			<th> setScore </th>
 		</tr>
 		<#list users as user>
 			<tr>
@@ -85,11 +85,13 @@
 				 <td><a href = "http://localhost:8080/user/${user.id}/download ">${user.fileName}</td> 
 	             <td>${user.stat}</td>
 				 <td>${user.creationTime}</td>
-				 <td><      ></td>
-			     <td>
-		     		<input type="text" name="Score">
-		     		<input type="submit" value="OK" onclick="gradeSubmitted()" >
-		     	 </td>
+				 <td>${user.score}</td>
+				 <td>
+			        <form method = "POST" enctype = "multipart/form-data" action = "/cs480/score/${user.id}/setScore">
+		     		<input type ="text" name = "score" id = "score">
+		     		<input type = "submit" value = "Submit" onClick = "gradeSubmitted(document.getElementById('score'))">
+		     		</form>
+		     	</td>
 			</tr>
 		</#list>
 		
@@ -104,9 +106,15 @@
     </div>	   
 </body>
 <script>
-	function gradeSubmitted(){
-	
-	alert("Grade Submitted");
-	}
+	function gradeSubmitted(score){
+	   if(score.value == ""){
+	      alert( "Please, Type the score");
+	   }
+	   else if(isNaN(score.value)){
+	       alert("Invalid input");
+	   }else {
+	      alert("Graded");
+	   }
+    }
 </script>
 </html>

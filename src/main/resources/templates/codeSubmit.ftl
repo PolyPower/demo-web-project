@@ -74,6 +74,7 @@
             						 <td><a href = "http://localhost:8080/user/${user.id}/download ">${user.fileName}</td> 
  						             <td>${user.stat}</td>
              						 <td>${user.creationTime}</td>
+             						 <td>${user.score}</td}
         						     
           						</tr>
        					</#list>

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -51,11 +52,12 @@ public class FSSubmissionManager implements SubmissionManager {
 	private SubmissionMap getSubmissionMap() {
 		SubmissionMap submissionMap = null;
 		File submissionFile = ResourceResolver.getSubmissionFile();
+		JavaType java = JSON.getTypeFactory().constructCollectionLikeType(SubmissionMap.class, Submission.class);
         if (submissionFile.exists()) {
         	// read the file and convert the JSON content
         	// to the SubmissionMap object
             try {
-				submissionMap = JSON.readValue(submissionFile, SubmissionMap.class);
+				submissionMap = JSON.readValue(submissionFile, java);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
