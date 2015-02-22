@@ -88,8 +88,8 @@
 				 <td>${user.score}</td>
 				 <td>
 			        <form method = "POST" enctype = "multipart/form-data" action = "/cs480/score/${user.id}/setScore">
-		     		<input type ="text" name = "score" id = "score">
-		     		<input type = "submit" value = "Submit" onClick = "gradeSubmitted(document.getElementById('score'))">
+		     		<input type ="text" name = "score" id = "score" required pattern = "[0-9]" title = "Invalid Value" >
+		     		<input type = "submit" value = "Submit" >
 		     		</form>
 		     	</td>
 			</tr>
@@ -107,13 +107,20 @@
 </body>
 <script>
 	function gradeSubmitted(score){
+	   var message, x;
+       message = document.getElementById("message");
+       message.innerHTML = "";
+	
 	   if(score.value == ""){
 	      alert( "Please, Type the score");
+	      message.innerHTML ="Please, Type the score";
 	   }
 	   else if(isNaN(score.value)){
 	       alert("Invalid input");
+	       message.innerHTML ="Invalid input";
 	   }else {
 	      alert("Graded");
+	      message.innerHTML ="Graded";
 	   }
     }
 </script>

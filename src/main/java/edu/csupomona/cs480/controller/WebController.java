@@ -344,6 +344,8 @@ public class WebController {
 				user.setScore("-");
 				userManager.updateUser(user);// add
 
+		
+
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
 						new FileOutputStream(new File(dir + name)));

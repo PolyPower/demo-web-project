@@ -56,6 +56,7 @@ public class FSSubmissionManager implements SubmissionManager {
         	// to the SubmissionMap object
             try {
 				submissionMap = JSON.readValue(submissionFile, SubmissionMap.class);
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

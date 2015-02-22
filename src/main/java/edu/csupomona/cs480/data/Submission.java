@@ -40,11 +40,7 @@ public class Submission {
 	 */
 	private String filePath;
 	
-	/**
-	 * The actual file object of the submission.
-	 */
-	private MultipartFile sourceCode;
-	
+
 	/**
 	 * The status of the user's submission. Values can either be
 	 * 'Submitted' or 'Reviewed' and can only change from Submitted
@@ -94,6 +90,14 @@ public class Submission {
 		this.fileName = fileName;
 	}
 	
+	public String getUvaId(){
+		return uvaID;
+	}
+	
+	public void setUvaId(String uvaID){
+		this.uvaID = uvaID;
+	}
+	
 	public String getFilePath() {
 		return filePath;
 	}
@@ -102,15 +106,7 @@ public class Submission {
 		this.filePath = fileName;
 	}
 
-	public MultipartFile getSourceCode() {
-		return sourceCode;
-	}
-
-	public void setSourceCode(MultipartFile sourceCode) {
-		this.sourceCode = sourceCode;
-	}
-
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
@@ -134,5 +130,13 @@ public class Submission {
 		this.creationTime = creationTime;
 	}
 	
+	public static boolean isNumeric(String str) {
+		try {
+			int d = Integer.parseInt(str);
+			return true;
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+	}
 
 }
