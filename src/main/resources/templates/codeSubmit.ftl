@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 
 <head>
 
@@ -19,8 +19,7 @@
 	}
 	
 	table
-	{
-		 
+	{ 
 		 align="center";
 		 border: 1px solid black; 
 	}	
@@ -90,7 +89,6 @@
 				<td>UserID: </td>
 				<td><input type="text" name="UserID" pattern="[a-z0-9._%+-]+@[cpp]+\.[edu]{3}$"> </td>
 			<tr>	
-				
 			   
 			    <td>Week: </td>
 			    <td><select  id="mySelect"name="Weeks" onchange="selectWeek()">
@@ -128,7 +126,6 @@
 		var probId = ["98989", "2323", "4545", "4566", "12345"];
 		var x =  document.getElementById("mySelect").selectedIndex;
 		document.getElementById("prob").innerHTML = probId[x];
-	
 	}
 </script>
     
