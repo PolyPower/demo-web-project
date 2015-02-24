@@ -365,7 +365,7 @@ public class WebController {
 
 			ModelAndView modelAndView = new ModelAndView(
 					"You failed to upload " + " because the file was empty.");
-			modelAndView.addObject("users", listAllUsers());
+		//	modelAndView.addObject("users", listAllUsers());
 			return modelAndView;
 		}
 

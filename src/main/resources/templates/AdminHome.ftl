@@ -53,15 +53,14 @@
 <body>    
     <div id="header">
     	<h2>CSS Administration Form</h2>  
-                
     </div>
-
+   	<input type = "submit" value = "Release a problem!" >
     <br><br><br><br><br><br><br><br>
     
     <table width="100">
 		<tr>
 			<td>AdminID: </td>
-			<td> <input type="text" id="input_userId" autofocus> </td>	
+			<td> <input type="text" id="input_userId" autofocus  pattern="[a-z0-9._%+-]+@[cpp]+\.[edu]{3}$"> </td>	
 		</tr>
 		
 	</table>
@@ -88,7 +87,7 @@
 				 <td>${user.score}</td>
 				 <td>
 			        <form method = "POST" enctype = "multipart/form-data" action = "/cs480/score/${user.id}/setScore">
-		     		<input type ="text" name = "score" id = "score" required pattern = "[0-9]" title = "Invalid Value" >
+		     		<input type ="text" name = "score" id = "score" required pattern = "[0-9]{2}" title = "Invalid Value" >
 		     		<input type = "submit" value = "Submit" >
 		     		</form>
 		     	</td>
