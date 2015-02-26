@@ -26,7 +26,7 @@
           <tr> 
              <td>UserName : </td>
              <td>
-			        <form method = "POST" enctype = "multipart/form-data" action = "/cs480/list/user">
+			        <form method = "POST" enctype = "multipart/form-data" action = "/list/user">
 		     		<input type ="text" name = "userId" required>
 		     		<input type = "submit" value = "Submit" >
 		     		</form>
