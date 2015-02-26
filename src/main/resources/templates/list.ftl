@@ -20,10 +20,22 @@
     </div>
 
     <hr>
+    
+    <div>
+       <table border = "1">
+          <tr> 
+             <td>UserName : </td>
+             <td>
+			        <form method = "POST" enctype = "multipart/form-data" action = "/list/user">
+		     		<input type ="text" name = "userId" required>
+		     		<input type = "submit" value = "Submit" >
+		     		</form>
+		     </td>
+       </table>
+    </div>
 
     <div>
         <div>
-            <label>Submission List for ${userId}</label>
             <table border="1">            
                 <tr>
                     <td>Username</td>
@@ -38,9 +50,10 @@
                             <td>${submission.userId}</td>
                             <td>${submission.weekNo}</td>
                             <td>${submission.uvaID}</td>
-                            <td>${submission.filePath}</td>
+                            <td><a href = "http://localhost:8080/user/${submission.userId}/download ">${submission.fileName}</td>
                             <td>${submission.status?c}</td>
                             <td>${submission.creationTime}</td>
+                            <td>${submission.score}</td>
                         </tr>
                 </#list>
             </table>

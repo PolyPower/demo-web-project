@@ -54,6 +54,9 @@ public interface SubmissionManager {
 	 */
 	public ArrayList<Submission> listFiles();
 
+	public void setScore(String id, int week, int score);
+
+
 
 
 	
