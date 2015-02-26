@@ -169,6 +169,11 @@ public class WebController {
 		return submissionManager.getSubmissions(userId);
 	}
 	
+	@RequestMapping(value = "/list/admin", method = RequestMethod.GET)
+	ArrayList<Submission> listSubmissionForAll(){
+		return submissionManager.listAllSubmissionsInStorage();
+	}
+	
 	/*********** Web UI Test Utility for Submission List **********/
 	/**
 	 * This method provide a simple web UI for you to test the different
@@ -178,6 +183,13 @@ public class WebController {
 	ModelAndView getUsersSubmissions(@PathVariable("userId") String userId) {
 		ModelAndView modelAndView = new ModelAndView("list");
 		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	ModelAndView getall() {
+		ModelAndView modelAndView = new ModelAndView("list");
+		modelAndView.addObject("submissions", listSubmissionForAll());
 		return modelAndView;
 	}
 	
@@ -225,6 +237,18 @@ public class WebController {
 				submission.setStatus(false); // hard-coded value
 				submission.setScore(0); // hard-coded value
 				submissionManager.updateSubmissionList(submission);
+				
+				User user = new User();
+				name = file.getOriginalFilename();
+				user.setId(userId);
+				user.setWeek(weekNo);
+				user.setprob(uvaID);
+				user.setStatus(true);
+				user.setFileName(name);
+				user.setFilePath(dir + name);
+				user.setStat();
+				user.setScore("-");
+				userManager.updateUser(user);
 			
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
