@@ -53,17 +53,41 @@
 <body>    
     <div id="header">
     	<h2>CSS Administration Form</h2>  
-    </div>
-   	<input type = "submit" value = "Release a problem!" >
-    <br><br><br><br><br><br><br><br>
+    </div> <br><br><br><br><br><br>
     
-    <table width="100">
-		<tr>
-			<td>AdminID: </td>
-			<td> <input type="text" id="input_userId" autofocus  pattern="[a-z0-9._%+-]+@[cpp]+\.[edu]{3}$"> </td>	
-		</tr>
+      	<input type="submit" id="submit" value="Release a problem" ><br><br><br>
+		   	
+		<form method="POST" enctype = "multipart/form-data" action="/cs480/AdminHome">  
 		
-	</table>
+    	<table width="90">
+    		<tr>
+				<td>ProblemID: </td>
+				<td><input type="text" id="probId" name="ProblemID" required pattern="[0-9]{1,}" required> </td>
+			</tr>
+			   
+			    <td>Week: </td>
+			    <td><select  id="mySelect"name="Weeks" onchange="selectWeek()" required>
+			    
+				    <option value="0">      </option>
+				    <option value="1">Week 1</option>
+				    <option value="2">Week 2</option>
+				    <option value="3">Week 3</option>
+				    <option value="4">Week 4</option>
+				    <option value="5">Week 5</option>
+				    
+			    </select></td>  
+			</tr>
+			
+			<tr>				
+	    		<input type="file" id="file" name="file" size="40" required accept="file_extension.docx|.pdf">
+	    	
+    			<input type="submit" id="release" value="Release" onclick="releasePro()">
+    		</tr>
+    			
+        </table>
+    </form>
+		   	
+
 	  <br><br><br>
 	<table 	 width="100%">
 		<tr>
@@ -105,22 +129,9 @@
     </div>	   
 </body>
 <script>
-	function gradeSubmitted(score){
-	   var message, x;
-       message = document.getElementById("message");
-       message.innerHTML = "";
-	
-	   if(score.value == ""){
-	      alert( "Please, Type the score");
-	      message.innerHTML ="Please, Type the score";
-	   }
-	   else if(isNaN(score.value)){
-	       alert("Invalid input");
-	       message.innerHTML ="Invalid input";
-	   }else {
-	      alert("Graded");
-	      message.innerHTML ="Graded";
-	   }
+	function releasePro()
+	{
+		document.getElementById("submit").disabled = true;
     }
 </script>
 </html>
