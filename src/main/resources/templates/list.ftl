@@ -53,6 +53,7 @@
                             <td><a href = "http://localhost:8080/user/${submission.userId}/download ">${submission.fileName}</td>
                             <td>${submission.status?c}</td>
                             <td>${submission.creationTime}</td>
+                            <td>${submission.score}</td>
                         </tr>
                 </#list>
             </table>

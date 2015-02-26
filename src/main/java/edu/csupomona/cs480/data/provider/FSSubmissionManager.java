@@ -143,7 +143,7 @@ public class FSSubmissionManager implements SubmissionManager {
 		if(submissionList != null) {
 			
 			// remove the submission from the list
-			submissionList.remove(submission);
+			submissionList.remove(submission.getWeekNo()- 1);
 			
 			// put the list into the submission map
 			submissionMap.put(submission.getUserId(), submissionList);
@@ -178,6 +178,20 @@ public class FSSubmissionManager implements SubmissionManager {
 		
 		return null/*new ArrayList<Submission>(submissionMap.values())*/;
 	}
-	
+
+	public void setScore(String id, int week, int score){
+
+		SubmissionMap submissionMap = getSubmissionMap();
+		ArrayList<Submission> list = submissionMap.get(id);
+		Submission sb = list.get(week - 1);
+		System.out.println(sb.getWeekNo());
+		
+	     sb.setScore(score);
+	     System.out.println(sb.getScore());
+	     
+	  
+		persistSubmissionMap(submissionMap);
+	}
+
 	
 }

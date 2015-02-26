@@ -136,16 +136,6 @@ public class WebController {
 		return userManager.listAllUsers();
 	}
 
-	@RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
-	List<User> listFiles() {
-		return userManager.listFiles();
-	}
-
-	@RequestMapping(value = "/cs480/users/score", method = RequestMethod.GET)
-	List<User> listScores() {
-		return userManager.listScores();
-	}
-
 	// ///// all the above code is an example from the professor ////////
 
 	/**
@@ -157,23 +147,23 @@ public class WebController {
 	@Autowired
 	private SubmissionManager submissionManager;
 
-
 	/**
-	 * This API lists all the submissions for a specified user
-	 * in the current file system.
+	 * This API lists all the submissions for a specified user in the current
+	 * file system.
 	 *
 	 * @return
 	 */
 	@RequestMapping(value = "/list/{userId}/admin-view", method = RequestMethod.GET)
-	ArrayList<Submission> listSubmissionsForUser(@PathVariable("userId") String userId) {
+	ArrayList<Submission> listSubmissionsForUser(
+			@PathVariable("userId") String userId) {
 		return submissionManager.getSubmissions(userId);
 	}
-	
+
 	@RequestMapping(value = "/list/admin", method = RequestMethod.GET)
-	ArrayList<Submission> listSubmissionForAll(){
+	ArrayList<Submission> listSubmissionForAll() {
 		return submissionManager.listAllSubmissionsInStorage();
 	}
-	
+
 	/*********** Web UI Test Utility for Submission List **********/
 	/**
 	 * This method provide a simple web UI for you to test the different
@@ -185,31 +175,44 @@ public class WebController {
 		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/list/user", method = RequestMethod.POST)
 	ModelAndView getUsersFromSearch(@RequestParam("userId") String userId) {
 		ModelAndView modelAndView = new ModelAndView("list");
 		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(value = "/cs480/AdminHome/list/user", method = RequestMethod.POST)
+	ModelAndView getUsersInAdmin(@RequestParam("userId") String userId) {
+		ModelAndView modelAndView = new ModelAndView("AdminHome");
+		ArrayList<Submission> list = submissionManager.getSubmissions(userId);
+		if (list != null) {
+			modelAndView.addObject("submissions",
+					listSubmissionsForUser(userId));
+			return modelAndView;
+		}
+		System.out.println("user is not exist");
+		modelAndView.addObject("submissions", listSubmissionForAll());
+		return modelAndView;
+	}
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	ModelAndView getall() {
 		ModelAndView modelAndView = new ModelAndView("list");
 		modelAndView.addObject("submissions", listSubmissionForAll());
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/submit", method = RequestMethod.GET)
 	ModelAndView getUsersSubmissions() {
 		ModelAndView modelAndView = new ModelAndView("upload-form");
 		return modelAndView;
 	}
-	
+
 	/**
-	 * This is an example of sending an HTTP POST request to update a
-	 * user's submissions (or create the submission record  if it did 
-	 * not exist before).
+	 * This is an example of sending an HTTP POST request to update a user's
+	 * submissions (or create the submission record if it did not exist before).
 	 *
 	 * You can test this with a HTTP client by sending
 	 * http://localhost:8080/cs480/submission/kas/1
@@ -228,8 +231,8 @@ public class WebController {
 	ModelAndView updateSubmission(@RequestParam("userId") String userId,
 			@RequestParam("weekNo") int weekNo,
 			@RequestParam("uvaID") String uvaID,
-			@RequestParam("file") MultipartFile file) { 
-	
+			@RequestParam("file") MultipartFile file) {
+
 		String name = null;
 		String dir = System.getProperty("user.home") + "/cs480/";
 		if (!file.isEmpty()) {
@@ -244,29 +247,28 @@ public class WebController {
 				submission.setStatus(false); // hard-coded value
 				submission.setScore(0); // hard-coded value
 				submissionManager.updateSubmissionList(submission);
-			
+
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
 						new FileOutputStream(new File(dir + name)));
 				stream.write(bytes);
 				stream.close();
-	
+
 				ModelAndView modelAndView = new ModelAndView("upload-form");
 				return modelAndView;
-				
+
 			} catch (Exception e) {
-				
+
 				ModelAndView modelAndView = new ModelAndView("upload-form");
 				return modelAndView;
 			}
-			
+
 		} else {
-			
+
 			ModelAndView modelAndView = new ModelAndView("upload-form");
 			return modelAndView;
 		}
 
-	
 	}
 
 	/*********** Web UI Test Utility **********/
@@ -297,9 +299,9 @@ public class WebController {
 
 	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.GET)
 	ModelAndView getAdmin() {
-		
+
 		ModelAndView modelAndView = new ModelAndView("AdminHome");
-		modelAndView.addObject("users", listAllUsers());;
+		modelAndView.addObject("submissions", listSubmissionForAll());
 		return modelAndView;
 	}
 
@@ -339,7 +341,6 @@ public class WebController {
 
 	}
 
-
 	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.POST)
 	public @ResponseBody ModelAndView handleFileUpload(
 			@RequestParam("UserID") String id,
@@ -363,8 +364,6 @@ public class WebController {
 				user.setScore("-");
 				userManager.updateUser(user);// add
 
-		
-
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
 						new FileOutputStream(new File(dir + name)));
@@ -384,33 +383,23 @@ public class WebController {
 
 			ModelAndView modelAndView = new ModelAndView(
 					"You failed to upload " + " because the file was empty.");
-		//	modelAndView.addObject("users", listAllUsers());
+			// modelAndView.addObject("users", listAllUsers());
 			return modelAndView;
 		}
 
 	}
 
-	@RequestMapping(value = "/cs480/score/{userId}/setScore", method = RequestMethod.POST)
+	@RequestMapping(value = "/cs480/AdminHome/{userId}/{week}/setScore", method = RequestMethod.POST)
 	public @ResponseBody ModelAndView setScore(
-			@PathVariable("userId") String id,
-			@RequestParam(value = "score") String score) {
+			@PathVariable("userId") String id, @PathVariable("week") int week,
+			@RequestParam(value = "score") int score) {
 
-		User user = userManager.getUser(id);
-		if (StringUtil.isNotBlank(score)) {
-			user.setScore(score);
-			System.out.println(user.getId());
-			System.out.println(user.getScore());
-			userManager.updateUser(user);
-			ModelAndView model = new ModelAndView("/AdminHome");
-			model.addObject("users", listAllUsers());
-			return model;
+		submissionManager.setScore(id, week, score);
 
-		} else {
-			System.out.println("no score");
-			ModelAndView model = new ModelAndView("/AdminHome");
-			model.addObject("users", listAllUsers());
-			return model;
-		}
+		ModelAndView modelAndView = new ModelAndView("/AdminHome");
+		modelAndView.addObject("submissions", listSubmissionForAll());
+		return modelAndView;
+
 	}
 
 }
