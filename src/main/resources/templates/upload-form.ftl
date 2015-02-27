@@ -16,7 +16,7 @@
     </tr>
     <tr>
 	  <td>ProblemID: </td>	
-	  <td><input type="text" name="uvaID"></td>
+	  <td><input type="text" name="problemId"></td>
 	</tr>    
 	<tr>
 	  <td>Week: </td>

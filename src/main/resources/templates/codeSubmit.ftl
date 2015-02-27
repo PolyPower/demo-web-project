@@ -65,30 +65,23 @@
 							<th> Date </th>
 							<th> Score </th>
 						</tr>
-							<#list users as user>
+							<#list submissions as submission>
            						<tr>
-           						     <td>${user.week}</td>
-             						 <td>${user.id}</td>
-             						 <td>${user.prob}</td>
-            						 <td><a href = "http://localhost:8080/user/${user.id}/download ">${user.fileName}</td> 
- 						             <td>${user.stat}</td>
-             						 <td>${user.creationTime}</td>
-             						 <td>${user.score}</td}
+           						     <td>${submission.weekNo}</td>
+             						 <td>${submission.userId}</td>
+             						 <td>${submission.problemId}</td>
+            						 <td><a href = "http://localhost:8080/user/${submission.userId}/download ">${submission.fileName}</td> 
+ 						             <td></td>
+             						 <td>${submission.creationTime}</td>
+             						 <td>${submission.score}</td}
       						  
           						</tr>
        					</#list>
        					
-       					<#list problems as problem>
-           						<tr>
-           						     <td>${problem.week}</td>             						
-             						 <td>${problem.prob}</td>
-            						 <td><a href = "http://localhost:8080/problem/${problem.prob}/download ">${problem.fileName}</td> 
- 						            
-      						  
-          						</tr>
-       					</#list>
                </table>
                </div>
+             
+               
               <hr>
             <div>
      	<br><br>

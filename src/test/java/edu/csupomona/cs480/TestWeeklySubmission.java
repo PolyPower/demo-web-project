@@ -36,7 +36,7 @@ public class TestWeeklySubmission {
 			submission = new Submission();
 			submission.setUserId("testID");
 			submission.setWeekNo(counter);
-			submission.setUvaID("10765");
+			submission.setProbID("10765");
 			submission.setFilePath("MyCode.java");
 			submission.setStatus(false); // hard-coded value
 			submission.setScore(0); // hard-coded value

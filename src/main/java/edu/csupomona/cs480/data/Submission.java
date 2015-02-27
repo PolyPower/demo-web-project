@@ -28,7 +28,7 @@ public class Submission {
 	 * The UVa problem ID that corresponds to the problem answered
 	 * in this submission.
 	 */
-	private String uvaID;
+	private String problemId;
 	
 	/**
 	 * The filename of the user's uploaded code.
@@ -74,12 +74,12 @@ public class Submission {
 		this.weekNo = weekNo;
 	}
 
-	public String getUvaID() {
-		return uvaID;
+	public String getProbID() {
+		return problemId;
 	}
 	
-	public void setUvaID(String uvaID) {
-		this.uvaID = uvaID;
+	public void setProbID(String uvaID) {
+		this.problemId = problemId;
 	}
 
 	public String getFileName() {
@@ -91,11 +91,11 @@ public class Submission {
 	}
 	
 	public String getUvaId(){
-		return uvaID;
+		return problemId;
 	}
 	
 	public void setUvaId(String uvaID){
-		this.uvaID = uvaID;
+		this.problemId = problemId;
 	}
 	
 	public String getFilePath() {

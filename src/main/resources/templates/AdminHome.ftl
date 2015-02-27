@@ -121,7 +121,7 @@
 			<tr>
 			     <td>${submission.weekNo}</td>
 			     <td>${submission.userId}</td>
-                 <td>${submission.uvaID}</td>
+                 <td>${submission.problemId}</td>
                  <td><a href = "http://localhost:8080/user/${submission.userId}/${submission.weekNo}/download ">${submission.fileName}</td>
                  <td>${submission.status?c}</td>
                  <td>${submission.creationTime}</td>
@@ -143,7 +143,7 @@
 <script>
 function newProblemReleased()
 {
-	alert("New Probem has been release");
+	alert("New Probem has been released!");
 }
 	function releasePro()
 	{
