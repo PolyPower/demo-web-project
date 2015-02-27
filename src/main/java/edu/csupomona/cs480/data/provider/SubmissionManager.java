@@ -2,9 +2,11 @@ package edu.csupomona.cs480.data.provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import edu.csupomona.cs480.data.Submission;
 import edu.csupomona.cs480.data.User;
+import edu.csupomona.cs480.data.UserScore;
 
 public interface SubmissionManager {
 
@@ -47,12 +49,7 @@ public interface SubmissionManager {
 	 */
 	public ArrayList<Submission> listAllSubmissionsInStorage();
 	
-	/**
-	 * List all the current source code files in the storage.
-	 * 
-	 * @return List of file names
-	 */
-	public ArrayList<Submission> listFiles();
+	public ArrayList<UserScore> listUser();
 
 	public void setScore(String id, int week, int score);
 

@@ -129,14 +129,6 @@ public class Submission {
 	public void setCreationTime(String creationTime) {
 		this.creationTime = creationTime;
 	}
-	
-	public static boolean isNumeric(String str) {
-		try {
-			int d = Integer.parseInt(str);
-			return true;
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
-	}
+
 
 }

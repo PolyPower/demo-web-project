@@ -9,7 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JavaType;
@@ -21,6 +23,7 @@ import edu.csupomona.cs480.data.SubmissionMap;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.UserMap;
 import edu.csupomona.cs480.util.ResourceResolver;
+import edu.csupomona.cs480.data.UserScore;
 
 /**
  * The implementation of {@link SubmissionManager} interface
@@ -171,13 +174,31 @@ public class FSSubmissionManager implements SubmissionManager {
 		return allSubmissionsInStorage;
 	}
 	
-	
-	@Override
-	public ArrayList<Submission> listFiles() {
-		SubmissionMap submissionMap = getSubmissionMap();
+	public ArrayList<UserScore> listUser(){
+		SubmissionMap sbMap = getSubmissionMap();
+		ArrayList<UserScore> userList = new ArrayList<UserScore>();
+		ArrayList<Submission> sb= new ArrayList<Submission>();
+ 
+		int totalScore = 0;
+		UserScore us = new UserScore();
+		for(String key : sbMap.keySet()){
+			sb = getSubmissions(key);
+			System.out.println(key);
+			for(int i =0; i < sb.size(); i++ )
+			{
+				totalScore += sb.get(i).getScore();
+			}
+			us.setTotalScore(totalScore);
+			us.setId(key);
+			System.out.println(us.getId() + us.getTotalScore());
+			userList.add(us);
+			totalScore = 0;
+			us = new UserScore();
+		}
+		return userList;
 		
-		return null/*new ArrayList<Submission>(submissionMap.values())*/;
 	}
+	
 
 	public void setScore(String id, int week, int score){
 

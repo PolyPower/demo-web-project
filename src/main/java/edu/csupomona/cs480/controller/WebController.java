@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +37,7 @@ import com.google.common.collect.*;
 import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.Submission;
 import edu.csupomona.cs480.data.User;
+import edu.csupomona.cs480.data.UserScore;
 import edu.csupomona.cs480.data.provider.SubmissionManager;
 import edu.csupomona.cs480.data.provider.UserManager;
 import edu.csupomona.cs480.util.ResourceResolver;
@@ -50,93 +52,6 @@ import edu.csupomona.cs480.util.ResourceResolver;
 
 @RestController
 public class WebController {
-
-	/**
-	 * When the class instance is annotated with {@link Autowired}, it will be
-	 * looking for the actual instance from the defined beans.
-	 * <p>
-	 * In our project, all the beans are defined in the {@link App} class.
-	 */
-	@Autowired
-	private UserManager userManager;
-
-	/**
-	 * This is a simple example of how the HTTP API works. It returns a String
-	 * "OK" in the HTTP response. To try it, run the web application locally, in
-	 * your web browser, type the link: http://localhost:8080/cs480/ping
-	 */
-	@RequestMapping(value = "/cs480/ping", method = RequestMethod.GET)
-	String healthCheck() {
-		// You can replace this with other string,
-		// and run the application locally to check your changes
-		// with the URL: http://localhost:8080/
-		return "Hello World! Seulki ⚘ Hetal ⚘ Khamille";
-	}
-
-	/**
-	 * This is a simple example of how to use a data manager to retrieve the
-	 * data and return it as an HTTP response.
-	 * <p>
-	 * Note, when it returns from the Spring, it will be automatically converted
-	 * to JSON format.
-	 * <p>
-	 * Try it in your web browser: http://localhost:8080/cs480/user/user101
-	 */
-	@RequestMapping(value = "/cs480/user", method = RequestMethod.GET)
-	User getUser(@RequestParam("UserId") String userId) {
-		User user = userManager.getUser(userId);
-		return user;
-	}
-
-	/**
-	 * This is an example of sending an HTTP POST request to update a user's
-	 * information (or create the user if not exists before).
-	 *
-	 * You can test this with a HTTP client by sending
-	 * http://localhost:8080/cs480/user/user101 name=John major=CS
-	 *
-	 * Note, the URL will not work directly in browser, because it is not a GET
-	 * request. You need to use a tool such as curl.
-	 *
-	 * @param id
-	 * @param name
-	 * @param major
-	 * @return
-	 */
-	@RequestMapping(value = "/cs480/user/{userId}", method = RequestMethod.POST)
-	User updateUser(@PathVariable("userId") String id,
-			@RequestParam("name") String name,
-			@RequestParam(value = "major", required = false) String major) {
-		User user = new User();
-		user.setId(id);
-		// user.setMajor(major);
-		// user.setName(name);
-		userManager.updateUser(user);
-		return user;
-	}
-
-	/**
-	 * This API deletes the user. It uses HTTP DELETE method.
-	 *
-	 * @param userId
-	 */
-	@RequestMapping(value = "/cs480/user/{userId}", method = RequestMethod.DELETE)
-	void deleteUser(@PathVariable("userId") String userId) {
-		userManager.deleteUser(userId);
-	}
-
-	/**
-	 * This API lists all the users in the current database.
-	 *
-	 * @return
-	 */
-	@RequestMapping(value = "/cs480/users/list", method = RequestMethod.GET)
-	List<User> listAllUsers() {
-		System.out.println("All the user's");
-		return userManager.listAllUsers();
-	}
-
-	// ///// all the above code is an example from the professor ////////
 
 	/**
 	 * When the class instance is annotated with {@link Autowired}, it will be
@@ -162,6 +77,13 @@ public class WebController {
 	@RequestMapping(value = "/list/admin", method = RequestMethod.GET)
 	ArrayList<Submission> listSubmissionForAll() {
 		return submissionManager.listAllSubmissionsInStorage();
+	}
+
+	@RequestMapping(value = "/list/userid", method = RequestMethod.GET)
+	ArrayList<UserScore> listUser() {
+		// System.out.println("user id ");
+		return submissionManager.listUser();
+
 	}
 
 	/*********** Web UI Test Utility for Submission List **********/
@@ -193,8 +115,16 @@ public class WebController {
 			return modelAndView;
 		}
 		System.out.println("user is not exist");
-		modelAndView.addObject("submissions", listSubmissionForAll());
+		modelAndView.addObject("submissions", new ArrayList<Submission>());
 		return modelAndView;
+	}
+
+	@RequestMapping(value = "/cs480/AdminHome/list/{user}/listing", method = RequestMethod.GET)
+	ModelAndView getUsersbyClick(@PathVariable("user") String userId) {
+		ModelAndView modelAndView = new ModelAndView("AdminHome");
+		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
+		return modelAndView;
+
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -276,17 +206,11 @@ public class WebController {
 	 * This method provide a simple web UI for you to test the different
 	 * functionalities used in this web service.
 	 */
-	@RequestMapping(value = "/cs480/home", method = RequestMethod.GET)
-	ModelAndView getUserHomepage() {
-		ModelAndView modelAndView = new ModelAndView("home");
-		modelAndView.addObject("users", listAllUsers());
-		return modelAndView;
-	}
 
 	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.GET)
 	ModelAndView getUsercodeSubmit() {
 		ModelAndView modelAndView = new ModelAndView("codeSubmit");
-		modelAndView.addObject("users", listAllUsers());
+		modelAndView.addObject("submissions", listSubmissionForAll());
 		return modelAndView;
 	}
 
@@ -297,11 +221,18 @@ public class WebController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.GET)
+	@RequestMapping(value = "/cs480/AdminHome/page", method = RequestMethod.GET)
 	ModelAndView getAdmin() {
 
 		ModelAndView modelAndView = new ModelAndView("AdminHome");
 		modelAndView.addObject("submissions", listSubmissionForAll());
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.GET)
+	ModelAndView getFirstPage() {
+		ModelAndView modelAndView = new ModelAndView("AdminPage");
+		modelAndView.addObject("userscores", listUser());
 		return modelAndView;
 	}
 
@@ -319,12 +250,13 @@ public class WebController {
 
 	// @RequestMapping(value = "/file/{fileName}/user/{user}/download", method =
 	// RequestMethod.GET)
-	@RequestMapping(value = "/user/{user}/download", method = RequestMethod.GET)
-	public void getFile(/* @PathVariable("fileName") String fileName, */
-	@PathVariable("user") String userId, HttpServletResponse response)
+	@RequestMapping(value = "/user/{user}/{week}/download", method = RequestMethod.GET)
+	public void getFile(@PathVariable("user") String userId,
+			@PathVariable("week") int week, HttpServletResponse response)
 			throws IOException {
 		// System.out.println(fileName);
-		User user = userManager.getUser(userId);
+		ArrayList<Submission> list = submissionManager.getSubmissions(userId);
+		Submission user = list.get(week - 1);
 		String path = user.getFilePath();
 		System.out.println(path);
 		File f = new File(path);
@@ -338,54 +270,6 @@ public class WebController {
 				+ f.getName() + "\"");// fileName);
 
 		response.flushBuffer();
-
-	}
-
-	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView handleFileUpload(
-			@RequestParam("UserID") String id,
-			@RequestParam("ProblemID") String promb,
-			@RequestParam("Weeks") int weekNo,
-			@RequestParam("file") MultipartFile file) {
-		String name = null;
-		String dir = System.getProperty("user.home") + "\\cs480\\";
-		if (!file.isEmpty()) {
-			try {
-
-				User user = new User();
-				name = file.getOriginalFilename();
-				user.setId(id);
-				user.setWeek(weekNo);
-				user.setprob(promb);
-				user.setStatus(true);
-				user.setFileName(name);
-				user.setFilePath(dir + name);
-				user.setStat();
-				user.setScore("-");
-				userManager.updateUser(user);// add
-
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(dir + name)));
-				stream.write(bytes);
-				stream.close();
-
-				ModelAndView modelAndView = new ModelAndView("/codeSubmit");
-				modelAndView.addObject("users", listAllUsers());
-				return modelAndView;
-			} catch (Exception e) {
-				ModelAndView modelAndView = new ModelAndView(
-						"You failed to upload " + " => " + e.getMessage());
-				modelAndView.addObject("users", listAllUsers());
-				return modelAndView;
-			}
-		} else {
-
-			ModelAndView modelAndView = new ModelAndView(
-					"You failed to upload " + " because the file was empty.");
-			// modelAndView.addObject("users", listAllUsers());
-			return modelAndView;
-		}
 
 	}
 
