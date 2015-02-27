@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 import edu.csupomona.cs480.data.provider.FSSubmissionManager;
 import edu.csupomona.cs480.data.provider.FSUserManager;
+import edu.csupomona.cs480.data.provider.FSreleaseProbManager;
+import edu.csupomona.cs480.data.provider.NewReleaseProbManager;
 import edu.csupomona.cs480.data.provider.SubmissionManager;
 import edu.csupomona.cs480.data.provider.UserManager;
 
@@ -44,6 +46,11 @@ public class App {
     public SubmissionManager submissionManager() {
         SubmissionManager submissionManager = new FSSubmissionManager();
         return submissionManager;
+    }
+    @Bean
+    public NewReleaseProbManager newReleaseProbManager() {
+    	NewReleaseProbManager newReleaseProbManager = new FSreleaseProbManager();
+        return newReleaseProbManager;
     }
  
     /**

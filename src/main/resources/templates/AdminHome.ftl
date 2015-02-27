@@ -55,14 +55,14 @@
     	<h2>CSS Administration Form</h2>  
     </div> <br><br><br><br><br><br>
     
-      	<input type="submit" id="submit" value="Release a problem" ><br><br><br>
+      	<input type="submit" id="submit" value="Release a problem" onclick="newProblemReleased()"><br><br><br>
 		   	
 		<form method="POST" enctype = "multipart/form-data" action="/cs480/AdminHome">  
 		
     	<table width="90">
     		<tr>
 				<td>ProblemID: </td>
-				<td><input type="text" id="probId" name="ProblemID" required pattern="[0-9]{1,}" required> </td>
+				<td><input type="text" id="probId" name="ProblemID" required pattern="[0-9]{1,}" required autofocus> </td>
 			</tr>
 			   
 			    <td>Week: </td>
@@ -141,6 +141,10 @@
     </div>	   
 </body>
 <script>
+function newProblemReleased()
+{
+	alert("New Probem has been release");
+}
 	function releasePro()
 	{
 		document.getElementById("submit").disabled = true;

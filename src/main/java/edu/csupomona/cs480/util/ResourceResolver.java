@@ -41,6 +41,14 @@ public class ResourceResolver {
         return file;
     }
     
+    public static File getNewRelease() {
+        File file = new File(BASE_DIR + "/" + "NewRelease-map.json");
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        return file;
+    }
+    
     public static File getUploadedFile(String fileName) {
     	File file = new File(BASE_DIR + "/" + fileName);
         if (!file.getParentFile().exists()) {

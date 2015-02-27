@@ -77,6 +77,16 @@
       						  
           						</tr>
        					</#list>
+       					
+       					<#list problems as problem>
+           						<tr>
+           						     <td>${problem.week}</td>             						
+             						 <td>${problem.prob}</td>
+            						 <td><a href = "http://localhost:8080/problem/${problem.prob}/download ">${problem.fileName}</td> 
+ 						            
+      						  
+          						</tr>
+       					</#list>
                </table>
                </div>
               <hr>

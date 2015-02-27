@@ -18,7 +18,7 @@ import org.apache.commons.collections15.multimap.MultiHashMap;
  *
  */
 @SuppressWarnings("serial")
-public class UserMap extends HashMap<String, User> {
+public class NewReleaseProbMap extends HashMap<String, NewReleaseProb> {
 
 }
 
