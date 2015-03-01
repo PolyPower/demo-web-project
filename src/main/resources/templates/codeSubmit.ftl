@@ -38,8 +38,18 @@
        	border: 1px solid black;	
        	color: DimGray;	
     }
+    nav
+    {
+      border:1px solid red;
+      border-width:1px 0;
+      list-style:none;
+      margin:0;
+      padding:0;
+      text-align:right;
+    
+    }
 
-    <title> <h2><> CSS Code Submission </title>
+    <title><h2> CSS CodeSubmit </h2></title>
     
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>    
     <script src="/js/home-control.js"></script>
@@ -50,9 +60,8 @@
 
 <body>    
     <div id="header">
-    	<h2>CSS Code Submission form! </h2>              
-    </div>
-    <br><br><br><br><br><br><br>
+    	<h2><h2>CodeSubmit<span style="color:while;font-weight:bold"><sub>.com</sub></span></h2>              
+    </div><br><br><br>
     <div>
           <div>    
 	           <table 	 width="100%">
@@ -90,7 +99,7 @@
     	<table width="120">
     		<tr>
 				<td>UserID: </td>
-				<td><input type="text" id="userId" name="UserID" required pattern="[a-zA-Z0-9._%+-]\w+@[cpp]+\.[edu]{3}$"> </td>
+				<td><input type="text" id="userId" name="UserID" required pattern="[a-zA-Z0-9._%+-]\w+@[a-zA-Z]+\.[edu]{3}$"> </td>
 			<tr>	
 			   
 			    <td>Week: </td>
