@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import edu.csupomona.cs480.data.NewReleaseProb;
 import edu.csupomona.cs480.data.NewReleaseProbMap;
@@ -36,7 +37,7 @@ public class FSreleaseProbManager implements NewReleaseProbManager {
 	@Override
 	public void updateNewProblem(NewReleaseProb newReleaseProb) {
 		NewReleaseProbMap newReleaseProbMap = getNewReleaseProbMap();
-		newReleaseProbMap.put(newReleaseProb.getprob(), newReleaseProb);
+		newReleaseProbMap.put(newReleaseProb.getproblemId(), newReleaseProb);
 		persistNewReleaseProbMap(newReleaseProbMap);
 	}
 	/**
@@ -66,10 +67,10 @@ public class FSreleaseProbManager implements NewReleaseProbManager {
 	 *
 	 * @param userMap
 	 */
-	private void persistNewReleaseProbMap(NewReleaseProbMap userMap) {
+	private void persistNewReleaseProbMap(NewReleaseProbMap newprobMap) {
 		try {
 			// convert the user object to JSON format
-            JSON.writeValue(ResourceResolver.getNewRelease(), userMap);
+            JSON.writeValue(ResourceResolver.getNewRelease(), newprobMap);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,8 +82,6 @@ public class FSreleaseProbManager implements NewReleaseProbManager {
         return  newprobMap.get(probId);
 	}
 	
-
-
 	@Override
 	public List<NewReleaseProb> listAllProblems() {
 		NewReleaseProbMap newprobMap = getNewReleaseProbMap();
