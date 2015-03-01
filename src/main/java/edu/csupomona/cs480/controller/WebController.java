@@ -86,26 +86,9 @@ public class WebController {
 	 * @param major
 	 * @return
 	 */
-	/*
-	 * @RequestMapping(value = "/cs480/user/{userId}", method =
-	 * RequestMethod.POST) User updateUser(@PathVariable("userId") String id,
-	 * 
-	 * @RequestParam("name") String name,
-	 * 
-	 * @RequestParam(value = "major", required = false) String major) { User
-	 * user = new User(); user.setId(id); // user.setMajor(major); //
-	 * user.setName(name); userManager.updateUser(user); return user; }
-	 */
-	/**
-	 * This API deletes the user. It uses HTTP DELETE method.
-	 * 
-	 * @param userId
-	 */
-	/*
-	 * @RequestMapping(value = "/cs480/user/{userId}", method =
-	 * RequestMethod.DELETE) void deleteUser(@PathVariable("userId") String
-	 * userId) { userManager.deleteUser(userId); }
-	 */
+	
+	
+	
 	/**
 	 * This API lists all the users in the current database.
 	 * 
@@ -233,11 +216,12 @@ public class WebController {
 	 * @param file
 	 * @return
 	 */
-	@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	//@RequestMapping(value = "/submit", method = RequestMethod.POST)
+	@RequestMapping(value = "cs480/codeSubmit", method = RequestMethod.POST)
 	ModelAndView updateSubmission(
-			@RequestParam("userId") String userId,
-			@RequestParam("weekNo") int weekNo,
-			@RequestParam("problemId") String probID,
+			@RequestParam("UserID") String userId,
+			@RequestParam("Weeks") int weekNo,
+			@RequestParam("ProblemID") String probID,
 			@RequestParam("file") MultipartFile file) {
 
 		String name = null;
@@ -248,7 +232,7 @@ public class WebController {
 				name = file.getOriginalFilename();
 				submission.setUserId(userId);
 				submission.setWeekNo(weekNo);
-				submission.setProbID(probID);
+				submission.setProblemId(probID);
 				submission.setFileName(name);
 				submission.setFilePath(dir + name);
 				submission.setStatus(false); // hard-coded value
@@ -284,13 +268,19 @@ public class WebController {
 	 * functionalities used in this web service.
 	 */
 
+	@RequestMapping(value = "/cs480/codeSubmitHome", method = RequestMethod.GET)
+	ModelAndView getcodeSubmitHome() {
+		ModelAndView modelAndView = new ModelAndView("codeSubmitHome");
+		//modelAndView.addObject("submissions", listSubmissionForAll());
+		modelAndView.addObject("problems", listAllProblems());
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.GET)
 	ModelAndView getUsercodeSubmit() {
 		ModelAndView modelAndView = new ModelAndView("codeSubmit");
 
-		 modelAndView.addObject("submissions", listSubmissionForAll());
-
-		//modelAndView.addObject("submissions", listAllUsers());
+		modelAndView.addObject("submissions", listSubmissionForAll());
 		modelAndView.addObject("problems", listAllProblems());
 
 		return modelAndView;
@@ -307,7 +297,7 @@ public class WebController {
 	ModelAndView getAdmin() {
 		ModelAndView modelAndView = new ModelAndView("AdminHome");
 		modelAndView.addObject("submissions", listSubmissionForAll());
-	//	modelAndView.addObject("problems", listAllProblems());
+		modelAndView.addObject("problems", listAllProblems());
 		return modelAndView;
 	}
 
@@ -358,11 +348,11 @@ public class WebController {
 
 	@RequestMapping(value = "/problem/{problem}/download", method = RequestMethod.GET)
 	public void getProblemFile(
-			@PathVariable("problem") String probId,
+			@PathVariable("problem") String problemId,
 			HttpServletResponse response) 
 			throws IOException {
 
-		NewReleaseProb problem = newReleaseProbManager.getProbId(probId);
+		NewReleaseProb problem = newReleaseProbManager.getProbId(problemId);
 		String path = problem.getFilePath();
 		System.out.println(path);
 		File f = new File(path);
@@ -382,22 +372,23 @@ public class WebController {
 	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.POST)
 	public @ResponseBody
 	ModelAndView releaseFileUpload(
-			@RequestParam("ProblemID") String prob, 
+			@RequestParam("ProblemID") String problemId, 
 			@RequestParam("Weeks") int weekNo,
+			@RequestParam("No") int problemNo,
 			@RequestParam("file") MultipartFile file){
 		String name = null;
 		String dir = System.getProperty("user.home") + "\\cs480\\";
 		if (!file.isEmpty()) {
 			try {
-
-				NewReleaseProb newProb = new NewReleaseProb();
+				System.out.println(problemId);
+				System.out.println(weekNo);
+				System.out.println(problemNo);
 				name = file.getOriginalFilename();
 
-				newProb.setWeek(weekNo);
-				newProb.setprob(prob);
-
-				newProb.setFileName(name);
-				newProb.setFilePath(dir + name);
+				NewReleaseProb newProb = new NewReleaseProb.NewReleaseProblemBuilder()
+						.withfileName(name).withfilePath(dir+name)
+						.withproblemId(problemId).withweekNo(weekNo)
+						.withproblemNo(problemNo).build();
 
 				newReleaseProbManager.updateNewProblem(newProb);// add
 
@@ -409,7 +400,6 @@ public class WebController {
 
 				ModelAndView modelAndView = new ModelAndView("/AdminHome");
 				modelAndView.addObject("problems", listAllProblems());
-				//modelAndView.addObject("users", listAllUsers());
 				modelAndView.addObject("submissions", listSubmissionForAll());
 
 				return modelAndView;
@@ -445,52 +435,5 @@ public class WebController {
 		return modelAndView;
 
 	}
-
-	@RequestMapping(value = "/cs480/codeSubmit", method = RequestMethod.POST)
-	public @ResponseBody
-	ModelAndView handleFileUpload(
-			@RequestParam("UserID") String id,
-			@RequestParam("ProblemID") String prob,
-			@RequestParam("Weeks") int weekNo,
-			@RequestParam("file") MultipartFile file) {
-		String name = null;
-		String dir = System.getProperty("user.home") + "\\cs480\\";
-		if (!file.isEmpty()) {
-			try {
-
-				User user = new User();
-				name = file.getOriginalFilename();
-				user.setId(id);
-				user.setWeek(weekNo);
-				user.setprob(prob);
-				user.setStatus(true);
-				user.setFileName(name);
-				user.setFilePath(dir + name);
-				user.setStat();
-				user.setScore("-");
-				userManager.updateUser(user);
-
-				byte[] bytes = file.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(dir + name)));
-				stream.write(bytes);
-				stream.close();
-
-				ModelAndView modelAndView = new ModelAndView("/codeSubmit");
-				modelAndView.addObject("users", listAllUsers());
-				return modelAndView;
-			} catch (Exception e) {
-				ModelAndView modelAndView = new ModelAndView(
-						"You failed to upload " + " => " + e.getMessage());
-				modelAndView.addObject("users", listAllUsers());
-				return modelAndView;
-			}
-		} else {
-
-			ModelAndView modelAndView = new ModelAndView(
-					"You failed to upload " + " because the file was empty.");
-			return modelAndView;
-		 }
-	}
-
 }
+
