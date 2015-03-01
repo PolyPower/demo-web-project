@@ -10,13 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class Submission {
 	
-	
-	//private SubmissionId submissionId;
-	
-	/**
-	 * The user's self-defined user ID. Ideally, the user
-	 * would use the same user ID every time.
-	 */
 	private String userId;
 
 	/**
@@ -25,7 +18,7 @@ public class Submission {
 	private int weekNo;
 
 	/**
-	 * The UVa problem ID that corresponds to the problem answered
+	 * The problem ID that corresponds to the problem answered
 	 * in this submission.
 	 */
 	private String problemId;
@@ -73,15 +66,7 @@ public class Submission {
 	public void setWeekNo(int weekNo) {
 		this.weekNo = weekNo;
 	}
-
-	public String getProbID() {
-		return problemId;
-	}
 	
-	public void setProbID(String uvaID) {
-		this.problemId = problemId;
-	}
-
 	public String getFileName() {
 		return fileName;
 	}
@@ -90,11 +75,11 @@ public class Submission {
 		this.fileName = fileName;
 	}
 	
-	public String getUvaId(){
+	public String getProblemId(){
 		return problemId;
 	}
 	
-	public void setUvaId(String uvaID){
+	public void setProblemId(String problemId){
 		this.problemId = problemId;
 	}
 	
