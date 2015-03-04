@@ -6,35 +6,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import edu.csupomona.cs480.data.provider.AdminiManager;
 import edu.csupomona.cs480.data.provider.FSSubmissionManager;
-import edu.csupomona.cs480.data.provider.FSUserManager;
 import edu.csupomona.cs480.data.provider.FSreleaseProbManager;
 import edu.csupomona.cs480.data.provider.NewReleaseProbManager;
 import edu.csupomona.cs480.data.provider.SubmissionManager;
-import edu.csupomona.cs480.data.provider.UserManager;
+import edu.csupomona.cs480.util.SendMail;
 
+import org.springframework.beans.factory.*;  
+import org.springframework.beans.factory.xml.XmlBeanFactory;  
+import org.springframework.core.io.*; 
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class App {
-
-	////////// this is from the teacher's example ////////////
-	
-    /**
-     * This is a good example of how Spring instantiates
-     * objects. The instances generated from this method
-     * will be used in this project, where the Autowired
-     * annotation is applied.
-     */
-    @Bean
-    public UserManager userManager() {
-        UserManager userManager = new FSUserManager();
-        return userManager;
-    }
-    
-    ////////// above is from the teacher's example ///////////
-    
     
     /**
      * This is a good example of how Spring instantiates
@@ -52,6 +38,12 @@ public class App {
     	NewReleaseProbManager newReleaseProbManager = new FSreleaseProbManager();
         return newReleaseProbManager;
     }
+    @Bean	
+    public AdminiManager administratorManager(){
+		AdminiManager adminiManager = new AdminiManager();
+    	return adminiManager;
+    	
+    }
  
     /**
      * This is the running main method for the web application.
@@ -63,5 +55,11 @@ public class App {
     public static void main(String[] args) throws Exception {
         // Run Spring Boot
         SpringApplication.run(App.class, args);
+//      Resource r=new ClassPathResource("applicationContext.xml");  
+//      BeanFactory b=new XmlBeanFactory(r);  
+//      SendMail m=(SendMail)b.getBean("mailMail");  
+//      String sender="lovemonky88@gmail.com";//write here sender gmail id  
+//      String receiver="lovemonky88@gmail.com";//write here receiver id  
+//      m.sendMail(sender,receiver,"hi","welcome");  
     }
 }

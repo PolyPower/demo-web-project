@@ -57,23 +57,9 @@
    	<input type = "submit" value = "Release a problem!" >
     <br><br><br><br><br><br><br><br>
     
-    <#if submissions?has_content>
-    <#else>
-        <p>No result found.</p>
-    </#if>
+
     
-    <div>
-       <table border = "1">
-          <tr> 
-             <td>UserName : </td>
-             <td>
-			        <form method = "POST" enctype = "multipart/form-data" action = "/cs480/AdminHome/list/user">
-		     		<input type ="text" name = "userId" required>
-		     		<input type = "submit" value = "Submit" >
-		     		</form>
-		     </td>
-       </table>
-    </div>
+
     
 	  <br><br><br>
 	<table 	 width="100%">
@@ -91,7 +77,7 @@
 			<tr>
 			     <td>${submission.weekNo}</td>
 			     <td>${submission.userId}</td>
-                 <td>${submission.uvaID}</td>
+                 <td>${submission.problemId}</td>
                  <td><a href = "http://localhost:8080/user/${submission.userId}/${submission.weekNo}/download ">${submission.fileName}</td>
                  <td>${submission.status?c}</td>
                  <td>${submission.creationTime}</td>

@@ -20,8 +20,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import edu.csupomona.cs480.data.Submission;
 import edu.csupomona.cs480.data.SubmissionMap;
-import edu.csupomona.cs480.data.User;
-import edu.csupomona.cs480.data.UserMap;
 import edu.csupomona.cs480.util.ResourceResolver;
 import edu.csupomona.cs480.data.UserScore;
 

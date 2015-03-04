@@ -66,21 +66,22 @@ public class Submission {
 	public void setWeekNo(int weekNo) {
 		this.weekNo = weekNo;
 	}
+
+
+	public String getProblemId() {
+		return problemId;
+	}
 	
+	public void setProblemId(String problemId) {
+		this.problemId = problemId;
+	}
+
 	public String getFileName() {
 		return fileName;
 	}
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-	
-	public String getProblemId(){
-		return problemId;
-	}
-	
-	public void setProblemId(String problemId){
-		this.problemId = problemId;
 	}
 	
 	public String getFilePath() {

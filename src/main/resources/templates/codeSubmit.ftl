@@ -60,8 +60,15 @@
 
 <body>    
     <div id="header">
+<<<<<<< HEAD
     	<h2><h2>CodeSubmit<span style="color:while;font-weight:bold"><sub>.com</sub></span></h2>              
     </div><br><br><br>
+=======
+    	<h2>CSS Code Submission form! </h2>              
+    </div>
+    <br><br><br><br><br><br><br>
+  
+>>>>>>> Design Pattern : Observer Pattern
     <div>
           <div>    
 	           <table 	 width="100%">

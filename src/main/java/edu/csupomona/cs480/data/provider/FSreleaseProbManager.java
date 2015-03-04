@@ -8,10 +8,9 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import edu.csupomona.cs480.data.Administrator;
 import edu.csupomona.cs480.data.NewReleaseProb;
 import edu.csupomona.cs480.data.NewReleaseProbMap;
-import edu.csupomona.cs480.data.User;
-import edu.csupomona.cs480.data.UserMap;
 import edu.csupomona.cs480.util.ResourceResolver;
 
 /**
@@ -34,12 +33,10 @@ public class FSreleaseProbManager implements NewReleaseProbManager {
 	 *
 	 */
 	private static final ObjectMapper JSON = new ObjectMapper();
-	@Override
-	public void updateNewProblem(NewReleaseProb newReleaseProb) {
-		NewReleaseProbMap newReleaseProbMap = getNewReleaseProbMap();
-		newReleaseProbMap.put(newReleaseProb.getproblemId(), newReleaseProb);
-		persistNewReleaseProbMap(newReleaseProbMap);
-	}
+
+
+
+
 	/**
 	 * Load the user map from the local file.
 	 *
@@ -76,6 +73,14 @@ public class FSreleaseProbManager implements NewReleaseProbManager {
         }
 	}
 
+	@Override
+	public void updateNewProblem(NewReleaseProb newReleaseProb) {
+		NewReleaseProbMap newReleaseProbMap = getNewReleaseProbMap();
+		newReleaseProbMap.put(newReleaseProb.getproblemId(), newReleaseProb);
+		persistNewReleaseProbMap(newReleaseProbMap);
+		
+	}
+	
 	@Override
 	public NewReleaseProb getProbId(String probId) {
 		NewReleaseProbMap newprobMap = getNewReleaseProbMap();

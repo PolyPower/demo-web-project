@@ -37,13 +37,12 @@ import com.google.common.collect.*;
 import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.NewReleaseProb;
 import edu.csupomona.cs480.data.Submission;
+import edu.csupomona.cs480.data.SubmissionMap;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.UserScore;
-
+import edu.csupomona.cs480.data.provider.AdminiManager;
 import edu.csupomona.cs480.data.provider.NewReleaseProbManager;
 import edu.csupomona.cs480.data.provider.SubmissionManager;
-import edu.csupomona.cs480.data.provider.UserManager;
-import edu.csupomona.cs480.util.ResourceResolver;
 
 /**
  * This is the controller used by Spring framework.
@@ -63,13 +62,12 @@ public class WebController {
 	 * In our project, all the beans are defined in the {@link App} class.
 	 */
 
-	private UserManager userManager;
-
 	@Autowired
 	private NewReleaseProbManager newReleaseProbManager;
 
 	@Autowired
 	private SubmissionManager submissionManager;
+
 
 	/**
 	 * This is an example of sending an HTTP POST request to update a user's
@@ -89,30 +87,15 @@ public class WebController {
 	
 	
 	
+
+	@Autowired
+	private AdminiManager adminiManager;
+
 	/**
 	 * This API lists all the users in the current database.
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/cs480/users/list", method = RequestMethod.GET)
-	List<User> listAllUsers() {
-		return userManager.listAllUsers();
-	}
-
-	@RequestMapping(value = "/cs480/problems/list", method = RequestMethod.GET)
-	List<NewReleaseProb> listAllProblems() {
-		return newReleaseProbManager.listAllProblems();
-	}
-
-	/*
-	 * @RequestMapping(value = "/cs480/users/files", method = RequestMethod.GET)
-	 * List<User> listFiles() { return userManager.listFiles(); }
-	 * 
-	 * @RequestMapping(value = "/cs480/users/score", method = RequestMethod.GET)
-	 * List<User> listScores() { return userManager.listScores(); }
-	 */
-
-	// ///// all the above code is an example from the professor ////////
 
 	/**
 	 * When the class instance is annotated with {@link Autowired}, it will be
@@ -133,6 +116,7 @@ public class WebController {
 		return submissionManager.getSubmissions(userId);
 	}
 
+
 	@RequestMapping(value = "/list/admin", method = RequestMethod.GET)
 	ArrayList<Submission> listSubmissionForAll() {
 		return submissionManager.listAllSubmissionsInStorage();
@@ -145,18 +129,6 @@ public class WebController {
 
 	}
 
-	/*********** Web UI Test Utility for Submission List **********/
-	/**
-	 * This method provide a simple web UI for you to test the different
-	 * functionalities used in this web service.
-	 */
-	@RequestMapping(value = "/list/{userId}", method = RequestMethod.GET)
-	ModelAndView getUsersSubmissions(@PathVariable("userId") String userId) {
-		ModelAndView modelAndView = new ModelAndView("list");
-		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
-		return modelAndView;
-	}
-
 	@RequestMapping(value = "/list/user", method = RequestMethod.POST)
 	ModelAndView getUsersFromSearch(@RequestParam("userId") String userId) {
 		ModelAndView modelAndView = new ModelAndView("list");
@@ -164,26 +136,30 @@ public class WebController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/cs480/AdminHome/list/user", method = RequestMethod.POST)
-	ModelAndView getUsersInAdmin(@RequestParam("userId") String userId) {
-		ModelAndView modelAndView = new ModelAndView("AdminHome");
-		ArrayList<Submission> list = submissionManager.getSubmissions(userId);
-		if (list != null) {
-			modelAndView.addObject("submissions",
-					listSubmissionsForUser(userId));
-			return modelAndView;
-		}
-		System.out.println("user is not exist");
-		modelAndView.addObject("submissions", new ArrayList<Submission>());
+	@RequestMapping(value = "/cs480/problems/list", method = RequestMethod.GET)
+	List<NewReleaseProb> listAllProblems() {
+		return newReleaseProbManager.listAllProblems();
+	}
+
+	/*********** Web UI Test Utility for Submission List **********/
+	/**
+	 * This method provide a simple web UI for you to test the different
+	 * functionalities used in this web service.
+	 */
+	
+	@RequestMapping(value = "/cs480/codeSubmitHome", method = RequestMethod.GET)
+	ModelAndView getcodeSubmitHome1() {
+		ModelAndView modelAndView = new ModelAndView("codeSubmitHome");
+		// modelAndView.addObject("submissions", listSubmissionForAll());
+		modelAndView.addObject("problems", listAllProblems());
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/cs480/AdminHome/list/{user}/listing", method = RequestMethod.GET)
-	ModelAndView getUsersbyClick(@PathVariable("user") String userId) {
-		ModelAndView modelAndView = new ModelAndView("AdminHome");
+	@RequestMapping(value = "/list/{userId}", method = RequestMethod.GET)
+	ModelAndView getUsersSubmissions(@PathVariable("userId") String userId) {
+		ModelAndView modelAndView = new ModelAndView("list");
 		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
 		return modelAndView;
-
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -216,12 +192,14 @@ public class WebController {
 	 * @param file
 	 * @return
 	 */
+
 	//@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	@RequestMapping(value = "cs480/codeSubmit", method = RequestMethod.POST)
 	ModelAndView updateSubmission(
 			@RequestParam("UserID") String userId,
 			@RequestParam("Weeks") int weekNo,
 			@RequestParam("ProblemID") String probID,
+
 			@RequestParam("file") MultipartFile file) {
 
 		String name = null;
@@ -281,15 +259,17 @@ public class WebController {
 		ModelAndView modelAndView = new ModelAndView("codeSubmit");
 
 		modelAndView.addObject("submissions", listSubmissionForAll());
+
+
+		// modelAndView.addObject("submissions", listAllUsers());
 		modelAndView.addObject("problems", listAllProblems());
 
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/cs480/loginHome", method = RequestMethod.GET)
+	@RequestMapping(value = "/cs480/codeSubmit/login", method = RequestMethod.GET)
 	ModelAndView getlogin() {
 		ModelAndView modelAndView = new ModelAndView("loginHome");
-
 		return modelAndView;
 	}
 
@@ -297,7 +277,9 @@ public class WebController {
 	ModelAndView getAdmin() {
 		ModelAndView modelAndView = new ModelAndView("AdminHome");
 		modelAndView.addObject("submissions", listSubmissionForAll());
+
 		modelAndView.addObject("problems", listAllProblems());
+
 		return modelAndView;
 	}
 
@@ -305,6 +287,28 @@ public class WebController {
 	ModelAndView getFirstPage() {
 		ModelAndView modelAndView = new ModelAndView("AdminPage");
 		modelAndView.addObject("userscores", listUser());
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/cs480/AdminHome/list/user", method = RequestMethod.POST)
+	ModelAndView getUsersInAdmin(@RequestParam("userId") String userId) {
+		ModelAndView modelAndView = new ModelAndView("/AdminSecond");
+		ArrayList<Submission> list = submissionManager.getSubmissions(userId);
+		if (list != null) {
+			modelAndView.addObject("submissions",
+					listSubmissionsForUser(userId));
+			return modelAndView;
+		}
+		System.out.println("user is not exist");
+		modelAndView = new ModelAndView("/AdminHome");
+		modelAndView.addObject("submissions", new ArrayList<Submission>());
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/cs480/AdminHome/list/{user}/listing", method = RequestMethod.GET)
+	ModelAndView getUsersbyClick(@PathVariable("user") String userId) {
+		ModelAndView modelAndView = new ModelAndView("AdminSecond");
+		modelAndView.addObject("submissions", listSubmissionsForUser(userId));
 		return modelAndView;
 	}
 
@@ -320,15 +324,11 @@ public class WebController {
 	 * @throws IOException
 	 */
 
-	// @RequestMapping(value = "/file/{fileName}/user/{user}/download", method =
-	// RequestMethod.GET)
 	@RequestMapping(value = "/user/{user}/{week}/download", method = RequestMethod.GET)
-	public void getFile(
-			@PathVariable("user") String userId,
-			@PathVariable("week") int week, 
-			HttpServletResponse response)
+	public void getFile(@PathVariable("user") String userId,
+			@PathVariable("week") int week, HttpServletResponse response)
 			throws IOException {
-		
+
 		ArrayList<Submission> list = submissionManager.getSubmissions(userId);
 		Submission user = list.get(week - 1);
 		String path = user.getFilePath();
@@ -347,10 +347,12 @@ public class WebController {
 	}
 
 	@RequestMapping(value = "/problem/{problem}/download", method = RequestMethod.GET)
+
 	public void getProblemFile(
 			@PathVariable("problem") String problemId,
 			HttpServletResponse response) 
 			throws IOException {
+
 
 		NewReleaseProb problem = newReleaseProbManager.getProbId(problemId);
 		String path = problem.getFilePath();
@@ -368,18 +370,23 @@ public class WebController {
 		response.flushBuffer();
 
 	}
+	
+	
 
 	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.POST)
+
 	public @ResponseBody
 	ModelAndView releaseFileUpload(
 			@RequestParam("ProblemID") String problemId, 
 			@RequestParam("Weeks") int weekNo,
 			@RequestParam("No") int problemNo,
 			@RequestParam("file") MultipartFile file){
+
 		String name = null;
 		String dir = System.getProperty("user.home") + "\\cs480\\";
 		if (!file.isEmpty()) {
 			try {
+
 				System.out.println(problemId);
 				System.out.println(weekNo);
 				System.out.println(problemNo);
@@ -390,7 +397,13 @@ public class WebController {
 						.withproblemId(problemId).withweekNo(weekNo)
 						.withproblemNo(problemNo).build();
 
+
+				adminiManager.updateObserver();
+				// adminiManager.displayObserver();
+
 				newReleaseProbManager.updateNewProblem(newProb);// add
+				adminiManager.changed(newProb);
+				adminiManager.deleteObservers();
 
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(
@@ -400,40 +413,86 @@ public class WebController {
 
 				ModelAndView modelAndView = new ModelAndView("/AdminHome");
 				modelAndView.addObject("problems", listAllProblems());
+
+				// modelAndView.addObject("users", listAllUsers());
+
 				modelAndView.addObject("submissions", listSubmissionForAll());
 
 				return modelAndView;
 			} catch (Exception e) {
-				ModelAndView modelAndView = new ModelAndView(
-						"You failed to upload " + " => " + e.getMessage());
+				ModelAndView modelAndView = new ModelAndView("/AdminHome");
 				modelAndView.addObject("problems", listAllProblems());
 				modelAndView.addObject("submissions", listSubmissionForAll());
 
-				//modelAndView.addObject("users", listAllUsers());
+				// modelAndView.addObject("users", listAllUsers());
 				return modelAndView;
 			}
 		} else {
 
-			ModelAndView modelAndView = new ModelAndView(
-					"You failed to upload " + " because the file was empty.");
+			ModelAndView modelAndView = new ModelAndView("/AdminHome");
 			return modelAndView;
 		}
 
 	}
 
 	@RequestMapping(value = "/cs480/AdminHome/{userId}/{week}/setScore", method = RequestMethod.POST)
-	public @ResponseBody
-	ModelAndView setScore(
-			@PathVariable("userId") String id,
-			@PathVariable("week") int week,
+	public @ResponseBody ModelAndView setScore(
+			@PathVariable("userId") String id, @PathVariable("week") int week,
 			@RequestParam(value = "score") int score) {
 
 		submissionManager.setScore(id, week, score);
 
-		ModelAndView modelAndView = new ModelAndView("/AdminHome");
-		modelAndView.addObject("submissions", listSubmissionForAll());
+		ModelAndView modelAndView = new ModelAndView("/AdminSecond");
+		modelAndView.addObject("submissions", listSubmissionsForUser(id));
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/cs480/codeSubmit/signUp", method = RequestMethod.POST)
+	public ModelAndView signUpByUser(@RequestParam("userId") String userId) {
+		ModelAndView modelAndView = new ModelAndView("/SignUp");
+		User user = new User();
+		user.setUserId(userId);
+		adminiManager.updateUser(user);
+		return modelAndView;
+	}
+
+
+
+	@RequestMapping(value = "/cs480/codeSubmit/signUp", method = RequestMethod.GET)
+	public ModelAndView signUpByUser() {
+		ModelAndView modelAndView = new ModelAndView("/SignUp");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/cs480/codeSubmit/login", method = RequestMethod.POST)
+	public ModelAndView logininByUser(@RequestParam("userId") String userId) {
+		ModelAndView modelAndView = new ModelAndView("loginHome");
+		User user = adminiManager.getUser(userId);
+		
+		if (user != null) {
+			modelAndView = new ModelAndView("codeSubmit");
+			List<Submission> submission = submissionManager.getSubmissions(userId);
+			if(submission != null){
+				modelAndView.addObject("submissions", submission);
+			}
+			modelAndView.addObject("submissions", new ArrayList<Submission>());
+			return modelAndView;
+		}
+		System.out.println(userId + " does not exist");
 		return modelAndView;
 
+
+	}
+
+
+	@RequestMapping(value = "/list/userDatabase", method = RequestMethod.GET)
+	public List<User> getUserId() {
+		return adminiManager.getList();
+	}
+
+	@RequestMapping(value = "/cs480/list/{userId}", method = RequestMethod.GET)
+	User getUser(@PathVariable("userId") String userId) {
+		User user = adminiManager.getUser(userId);
+		return user;
 	}
 }
-

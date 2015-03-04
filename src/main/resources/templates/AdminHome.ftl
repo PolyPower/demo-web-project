@@ -89,7 +89,7 @@
 		   	
     <#if submissions?has_content>
     <#else>
-        <p>No result found.</p>
+        <p>The user doesnot exist</p>
     </#if>
     
     <div>
@@ -98,7 +98,7 @@
              <td>UserName : </td>
              <td>
 			        <form method = "POST" enctype = "multipart/form-data" action = "/cs480/AdminHome/list/user">
-		     		<input type ="text" name = "userId" required>
+		     		<input type ="text" id = "userid" name = "userId" required>
 		     		<input type = "submit" value = "Submit" >
 		     		</form>
 		     </td>

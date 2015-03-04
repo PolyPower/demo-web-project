@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import edu.csupomona.cs480.data.Submission;
-import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.UserScore;
 
 public interface SubmissionManager {

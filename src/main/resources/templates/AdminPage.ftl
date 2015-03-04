@@ -19,7 +19,16 @@
 		text-align:center;
 		padding:5px;
 	}
-	
+	#touchArea {
+       position: absolute;
+       top: 85px;
+       right: 30px;
+       width: 100px;
+       height:30px;
+       background:#FFFFF;
+       font-size:20px;
+       color: #FFFFFF;
+    }
 	table
 	{		 
 		 align="center";
@@ -54,19 +63,12 @@
     <div id="header">
     	<h2>CSS Administration Form</h2>  
     </div>
+    <div id="touchArea">
+    <p><a href = "http://localhost:8080/cs480/AdminHome"> List All</p> </div>
+    <br><br><br><br><br><br><br><br>
+    
 
-    <div>
-       <table border="1">
-          <tr> 
-             <td>UserName : </td>
-             <td>
-			        <form method="POST" enctype="multipart/form-data" action="/cs480/AdminHome/list/user">
-		     		<input type ="text" name = "userId" required>
-		     		<input type = "submit" value = "Submit" >
-		     		</form>
-		     </td>
-       </table>
-    </div>
+
     <div>
     	<table 	 width="100%">
 		<tr>
@@ -81,7 +83,6 @@
 		</#list>
 		
 		</table>
-    
-    
     </body>
+
 </html>

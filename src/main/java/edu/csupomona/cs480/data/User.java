@@ -1,117 +1,101 @@
 package edu.csupomona.cs480.data;
 
-import java.io.FileInputStream;
-import java.util.Date;
+import java.io.File;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.validation.constraints.NotNull;
+import edu.csupomona.cs480.util.SendMail;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * The basic user object.
+ * All the User in the database (In CPP).
  */
-public class User {
+public class User implements Observer {
+	private String userId;
 
-	private String filePath;
-
-	/** The unique user Id */
-	private String id;
-	/** The timestamp when the user is being created */
-	private String creationTime = new Date(System.currentTimeMillis())
-			.toString();
-	private boolean status;
-	private String prob;
-	private String stat;
-	private String fileName;
-	private int week;
-	private String score;
-
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
+	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		
+		
+		String receiver = userId;
+		String title = getTitle((NewReleaseProb) arg1);
+		String message = getMessage((NewReleaseProb) arg1);
+		String filePath = getFilePath((NewReleaseProb) arg1);
+		String fileName = getFileName((NewReleaseProb) arg1);
+	
+		System.out.println(title);
+		System.out.println(filePath);
+		System.out.println(fileName);
+	
+		
+//		Resource r = new ClassPathResource("applicationContext.xml");
+//		BeanFactory b = new XmlBeanFactory(r);
+//		SendMail m = (SendMail) b.getBean("mailMail");
+//		String sender = "lovemonky88@gmail.com";// write here sender gmail id
+//       
+//		m.sendMail(sender, receiver, title, message, filePath,fileName);
+		System.out.println(userId +  ": Message is Sending to USERS");
+		System.out.println(receiver);
 
-	public String getCreationTime() {
-		return creationTime;
 	}
-
-	public void setCreationTime(String creationTime) {
-		this.creationTime = creationTime;
-	}
-
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public String getprob() {
-		return prob;
-	}
-
-	public void setprob(String prob) {
-		this.prob = prob;
-	}
-
-	public String getStat() {
-		return stat;
-	}
-
-	public void setStat() {
-		if (status) {
-			stat = "Submitted";
-		} else {
-			stat = "unSubmitted";
-		}
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getFileName() {
+	
+	private String getFileName(NewReleaseProb newProblem) {
+		String fileName;
+		fileName = newProblem.getFileName();
 		return fileName;
 	}
 
-	public int getWeek() {
-		return week;
+	private String getMessage(NewReleaseProb newProblem){
+		String message; 
+		message = "Hi, Students. The new Problem is posted on the CodeSubmit.com \n" +
+				 "Week : " + newProblem.getweek() + "\n" +
+				 "Problem Id : " + newProblem.getproblemId() + "\n" + 
+				 "Please, Keep in mind. This Competition will be close after 7 days.\n" +
+				 "Good Luck!\nAdministrator.";
+		return message;
+	}
+	
+	private String getTitle(NewReleaseProb newProblem){
+		String title;
+		title = "CodeSubmit Notify : New Problem, " + newProblem.getproblemId() + 
+				" Released NOW";
+		return title;
 	}
 
-	public void setWeek(int week) {
-		this.week = week;
+	private String getFilePath(NewReleaseProb newProblem){
+		String filePath;
+		filePath = newProblem.getFilePath();
+		return filePath;
 	}
+	
+	@JsonIgnore
+	public String[] getAllUsersAddress() {
+		Administrator admin = new Administrator();
+		List<User> listId = admin.getUserDataBase();
+		final int size = admin.getUserDataBase().size();
+		String[] usersAddress = new String[size];
 
-	public String getScore() {
-		return score;
-	}
-
-	public void setScore(String score) {
-		if (this.score == null || isNumeric(score)) {
-			this.score = score;
-		} else {
-			System.out.println("invalid");
+		for (int i =0; i < size; i++) {
+			usersAddress[i] = listId.get(i).getUserId();
 		}
-	}
 
-	public static boolean isNumeric(String str) {
-		try {
-			int d = Integer.parseInt(str);
-			return true;
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
+
+		return usersAddress;
 	}
+	
+
 }

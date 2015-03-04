@@ -8,9 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import edu.csupomona.cs480.data.User;
-import edu.csupomona.cs480.data.UserMap;
-import edu.csupomona.cs480.data.provider.FSUserManager;
-import edu.csupomona.cs480.data.provider.UserManager;
 
 
 public class codeSubmitTest {	

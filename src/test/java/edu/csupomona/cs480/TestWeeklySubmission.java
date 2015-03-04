@@ -36,6 +36,10 @@ public class TestWeeklySubmission {
 			submission = new Submission();
 			submission.setUserId("testID");
 			submission.setWeekNo(counter);
+<<<<<<< HEAD
+=======
+		//	submission.setProbID("10765");
+>>>>>>> Design Pattern : Observer Pattern
 			submission.setFilePath("MyCode.java");
 			submission.setStatus(false); // hard-coded value
 			submission.setScore(0); // hard-coded value

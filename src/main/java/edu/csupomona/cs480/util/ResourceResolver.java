@@ -25,16 +25,15 @@ public class ResourceResolver {
         return file;
     }
 	
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  
     /**
      * Get the file used to store the user object JSON
      *
      * @param userId
      * @return
      */
-    public static File getUserFile() {
-        File file = new File(BASE_DIR + "/" + "Multi-map.json");
+    public static File getDatabaseFile() {
+        File file = new File(BASE_DIR + "/" + "Database.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -43,14 +42,6 @@ public class ResourceResolver {
     
     public static File getNewRelease() {
         File file = new File(BASE_DIR + "/" + "NewRelease-map.json");
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdirs();
-        }
-        return file;
-    }
-    
-    public static File getUploadedFile(String fileName) {
-    	File file = new File(BASE_DIR + "/" + fileName);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
