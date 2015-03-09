@@ -86,18 +86,19 @@
           <div>    
 	           <table width="50%">
                 <tr>
-	                <th> No. </th>
 	                <th> ProblemID </th>
 					<th> Decription/Title </th>					
-					<th> Week </th>		
+					<th> Week </th>	
+					<th> Quarter </th>
+					<th> Year </th>	
 				</tr>
 				<#list problems as problem>
 					<tr>
-						<td>${problem.problemNo}</td>
 						<td>${problem.problemId}</td>
 						<td><a href="http://localhost:8080/problem/${problem.problemId}/download">${problem.fileName}</td> 
-					  	<td>${problem.week}</td>
-			        
+					  	<td>${problem.term.weekNo}</td>
+					  	<td>${problem.term.quarter}</td>
+			        	<td>${problem.term.year}</td>
 					</tr>
 			  </#list>
    		</table>

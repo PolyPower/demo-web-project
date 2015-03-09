@@ -62,7 +62,7 @@ public class User implements Observer {
 	private String getMessage(NewReleaseProb newProblem){
 		String message; 
 		message = "Hi, Students. The new Problem is posted on the CodeSubmit.com \n" +
-				 "Week : " + newProblem.getweek() + "\n" +
+				 "Week : " + newProblem.getTerm().getWeekNo() + "\n" +
 				 "Problem Id : " + newProblem.getproblemId() + "\n" + 
 				 "Please, Keep in mind. This Competition will be close after 7 days.\n" +
 				 "Good Luck!\nAdministrator.";

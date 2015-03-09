@@ -38,6 +38,8 @@ import edu.csupomona.cs480.App;
 import edu.csupomona.cs480.data.NewReleaseProb;
 import edu.csupomona.cs480.data.Submission;
 import edu.csupomona.cs480.data.SubmissionMap;
+import edu.csupomona.cs480.data.Term;
+import edu.csupomona.cs480.data.TermMenu;
 import edu.csupomona.cs480.data.User;
 import edu.csupomona.cs480.data.UserScore;
 import edu.csupomona.cs480.data.provider.AdminiManager;
@@ -55,54 +57,18 @@ import edu.csupomona.cs480.data.provider.SubmissionManager;
 @RestController
 public class WebController {
 
-	/**
-	 * When the class instance is annotated with {@link Autowired}, it will be
-	 * looking for the actual instance from the defined beans.
-	 * <p>
-	 * In our project, all the beans are defined in the {@link App} class.
-	 */
-
 	@Autowired
 	private NewReleaseProbManager newReleaseProbManager;
 
 	@Autowired
 	private SubmissionManager submissionManager;
-
-
-	/**
-	 * This is an example of sending an HTTP POST request to update a user's
-	 * information (or create the user if not exists before).
-	 * 
-	 * You can test this with a HTTP client by sending
-	 * http://localhost:8080/cs480/user/user101 name=John major=CS
-	 * 
-	 * Note, the URL will not work directly in browser, because it is not a GET
-	 * request. You need to use a tool such as curl.
-	 * 
-	 * @param id
-	 * @param name
-	 * @param major
-	 * @return
-	 */
 	
-	
-	
-
 	@Autowired
 	private AdminiManager adminiManager;
+	
+	TermMenu termMenu = TermMenu.getInstance();
 
-	/**
-	 * This API lists all the users in the current database.
-	 * 
-	 * @return
-	 */
-
-	/**
-	 * When the class instance is annotated with {@link Autowired}, it will be
-	 * looking for the actual instance from the defined beans.
-	 * <p>
-	 * In our project, all the beans are defined in the {@link App} class.
-	 */
+	
 
 	/**
 	 * This API lists all the submissions for a specified user in the current
@@ -147,14 +113,6 @@ public class WebController {
 	 * functionalities used in this web service.
 	 */
 	
-	@RequestMapping(value = "/cs480/codeSubmitHome", method = RequestMethod.GET)
-	ModelAndView getcodeSubmitHome1() {
-		ModelAndView modelAndView = new ModelAndView("codeSubmitHome");
-		// modelAndView.addObject("submissions", listSubmissionForAll());
-		modelAndView.addObject("problems", listAllProblems());
-		return modelAndView;
-	}
-
 	@RequestMapping(value = "/list/{userId}", method = RequestMethod.GET)
 	ModelAndView getUsersSubmissions(@PathVariable("userId") String userId) {
 		ModelAndView modelAndView = new ModelAndView("list");
@@ -197,9 +155,7 @@ public class WebController {
 	@RequestMapping(value = "cs480/codeSubmit", method = RequestMethod.POST)
 	ModelAndView updateSubmission(
 			@RequestParam("UserID") String userId,
-			@RequestParam("Weeks") int weekNo,
 			@RequestParam("ProblemID") String probID,
-
 			@RequestParam("file") MultipartFile file) {
 
 		String name = null;
@@ -209,8 +165,9 @@ public class WebController {
 				Submission submission = new Submission();
 				name = file.getOriginalFilename();
 				submission.setUserId(userId);
-				submission.setWeekNo(weekNo);
+				Term term = termMenu.lookup(probID);
 				submission.setProblemId(probID);
+				submission.setTerm(term);
 				submission.setFileName(name);
 				submission.setFilePath(dir + name);
 				submission.setStatus(false); // hard-coded value
@@ -223,28 +180,22 @@ public class WebController {
 				stream.write(bytes);
 				stream.close();
 
-				ModelAndView modelAndView = new ModelAndView("upload-form");
+				ModelAndView modelAndView = new ModelAndView("codeSubmit");
 				return modelAndView;
 
 			} catch (Exception e) {
 
-				ModelAndView modelAndView = new ModelAndView("upload-form");
+				ModelAndView modelAndView = new ModelAndView("codeSubmit");
 				return modelAndView;
 			}
 
 		} else {
 
-			ModelAndView modelAndView = new ModelAndView("upload-form");
+			ModelAndView modelAndView = new ModelAndView("codeSubmit");
 			return modelAndView;
 		}
 
 	}
-
-	/*********** Web UI Test Utility **********/
-	/**
-	 * This method provide a simple web UI for you to test the different
-	 * functionalities used in this web service.
-	 */
 
 	@RequestMapping(value = "/cs480/codeSubmitHome", method = RequestMethod.GET)
 	ModelAndView getcodeSubmitHome() {
@@ -326,11 +277,11 @@ public class WebController {
 
 	@RequestMapping(value = "/user/{user}/{week}/download", method = RequestMethod.GET)
 	public void getFile(@PathVariable("user") String userId,
-			@PathVariable("week") int week, HttpServletResponse response)
+			@PathVariable("week") String week, HttpServletResponse response)
 			throws IOException {
 
 		ArrayList<Submission> list = submissionManager.getSubmissions(userId);
-		Submission user = list.get(week - 1);
+		Submission user = list.get(termMenu.lookup(week).getWeekNo() - 1);
 		String path = user.getFilePath();
 		System.out.println(path);
 		File f = new File(path);
@@ -374,12 +325,12 @@ public class WebController {
 	
 
 	@RequestMapping(value = "/cs480/AdminHome", method = RequestMethod.POST)
-
 	public @ResponseBody
 	ModelAndView releaseFileUpload(
 			@RequestParam("ProblemID") String problemId, 
+			@RequestParam("Year") int year,
+			@RequestParam("Quarter") String quarter,
 			@RequestParam("Weeks") int weekNo,
-			@RequestParam("No") int problemNo,
 			@RequestParam("file") MultipartFile file){
 
 		String name = null;
@@ -389,18 +340,23 @@ public class WebController {
 
 				System.out.println(problemId);
 				System.out.println(weekNo);
-				System.out.println(problemNo);
+				System.out.println(quarter);
+				System.out.println(year);
 				name = file.getOriginalFilename();
-
+				
+				// This is unhealthy coding because if the problem already 
+				// exists there is no need for the last three parameters
+				Term term = termMenu.lookup(problemId, weekNo, quarter, year);
+				
+				
+				
 				NewReleaseProb newProb = new NewReleaseProb.NewReleaseProblemBuilder()
 						.withfileName(name).withfilePath(dir+name)
-						.withproblemId(problemId).withweekNo(weekNo)
-						.withproblemNo(problemNo).build();
+						.withproblemId(problemId).withterm(term).build();
 
 
 				adminiManager.updateObserver();
-				// adminiManager.displayObserver();
-
+				
 				newReleaseProbManager.updateNewProblem(newProb);// add
 				adminiManager.changed(newProb);
 				adminiManager.deleteObservers();

@@ -5,52 +5,24 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The basic user object.
  */
 public class Submission {
 	
 	private String userId;
-
-	/**
-	 * The week number that corresponds to this submission.
-	 */
-	private int weekNo;
-
-	/**
-	 * The problem ID that corresponds to the problem answered
-	 * in this submission.
-	 */
+	private Term term;
 	private String problemId;
-	
-	/**
-	 * The filename of the user's uploaded code.
-	 */
 	private String fileName;
-	
-	/**
-	 * The filepath of the user's uploaded code.
-	 */
 	private String filePath;
-	
-
-	/**
-	 * The status of the user's submission. Values can either be
-	 * 'Submitted' or 'Reviewed' and can only change from Submitted
-	 * to Reviewed by the Admin.
-	 */
 	private boolean status; 
-	
-	/** 
-	 * According to the Admin, this is the submission's score.
-	 */
 	private int score;
-	
-	/**
-	 * The timestamp when the code was submitted.
-	 */
 	private String creationTime = new Date(System.currentTimeMillis()).toString();
-
+	
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -59,14 +31,13 @@ public class Submission {
 		this.userId = userId;
 	}
 
-	public int getWeekNo() {
-		return weekNo;
+	public Term getTerm() {
+		return term;
 	}
 
-	public void setWeekNo(int weekNo) {
-		this.weekNo = weekNo;
+	public void setTerm(Term term) {
+		this.term = term;
 	}
-
 
 	public String getProblemId() {
 		return problemId;

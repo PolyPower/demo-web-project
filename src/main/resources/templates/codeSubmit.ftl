@@ -60,35 +60,29 @@
 
 <body>    
     <div id="header">
-<<<<<<< HEAD
     	<h2><h2>CodeSubmit<span style="color:while;font-weight:bold"><sub>.com</sub></span></h2>              
     </div><br><br><br>
-=======
     	<h2>CSS Code Submission form! </h2>              
     </div>
     <br><br><br><br><br><br><br>
-  
->>>>>>> Design Pattern : Observer Pattern
-    <div>
+	  <div>
           <div>    
 	           <table 	 width="100%">
 		                <tr>
-			                <th> Week </th>
-							<th> UserID </th>
+							<th> Date </th>
+			                <th> UserID </th>
 							<th> ProbemID </th>
 							<th> File </th>
 							<th> Status </th>
-							<th> Date </th>
 							<th> Score </th>
 						</tr>
 							<#list submissions as submission>
            						<tr>
-           						     <td>${submission.weekNo}</td>
-             						 <td>${submission.userId}</td>
+           						     <td>${submission.creationTime}</td>
+           						     <td>${submission.userId}</td>
              						 <td>${submission.problemId}</td>
             						 <td><a href = "http://localhost:8080/user/${submission.userId}/download ">${submission.fileName}</td> 
  						             <td></td>
-             						 <td>${submission.creationTime}</td>
              						 <td>${submission.score}</td}
       						  
           						</tr>
@@ -106,24 +100,11 @@
     	<table width="120">
     		<tr>
 				<td>UserID: </td>
-				<td><input type="text" id="userId" name="UserID" required pattern="[a-zA-Z0-9._%+-]\w+@[a-zA-Z]+\.[edu]{3}$"> </td>
-			<tr>	
-			   
-			    <td>Week: </td>
-			    <td><select  id="mySelect"name="Weeks" onchange="selectWeek()">
-			    
-				    <option value="0">      </option>
-				    <option value="1">Week 1</option>
-				    <option value="2">Week 2</option>
-				    <option value="3">Week 3</option>
-				    <option value="4">Week 4</option>
-				    <option value="5">Week 5</option>
-				    
-			    </select></td>  
-			</tr>
+				<td><input type="text" id="userId" name="UserID" required > </td>
+			</tr>	
 			<tr>
 				<td>ProblemID: </td>	
-				<td><textarea rows="" cols="7" id="prob" name="ProblemID" readonly> </textarea></td>
+				<td><textarea rows="1" cols="10" id="prob" name="ProblemID"> </textarea></td>
 			</tr> 
 				
     		<input type="file" id="file" name="file" size="40" required accept="file_extension|.exe|.docx|.pdf|.java|.cpp">

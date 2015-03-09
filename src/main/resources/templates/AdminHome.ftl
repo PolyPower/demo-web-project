@@ -64,7 +64,7 @@
 				<td>ProblemID: </td>
 				<td><input type="text" id="probId" name="ProblemID" required pattern="[0-9]{1,}" required autofocus> </td>
 			</tr>
-			   
+			<tr>   
 			    <td>Week: </td>
 			    <td><select  id="mySelect"name="Weeks" onchange="selectWeek()" required>
 			    
@@ -77,7 +77,30 @@
 				    
 			    </select></td>  
 			</tr>
-			
+			<tr>   
+			    <td>Quarter: </td>
+			    <td><select  id="mySelectQtr"name="Quarter" required>
+			    
+				    <option value="0">      </option>
+				    <option value="Fall">Fall</option>
+				    <option value="Winter">Winter</option>
+				    <option value="Spring">Spring</option>
+				    <option value="Summer">Summer</option>
+				    
+			    </select></td>  
+			</tr>
+			<tr>   
+			    <td>Year: </td>
+			    <td><select  id="mySelectYr"name="Year" required>
+			    
+				    <option value="0">      </option>
+				    <option value="2014">2014</option>
+				    <option value="2015">2015</option>
+				    <option value="2016">2016</option>
+				    <option value="2017">2017</option>
+				    
+			    </select></td>  
+			</tr>
 			<tr>				
 	    		<input type="file" id="file" name="file" size="40" required accept="file_extension.docx|.pdf">
 	    	
@@ -108,7 +131,6 @@
 	  <br><br><br>
 	<table 	 width="100%">
 		<tr>
-			<th> Week </th>
 			<th> UserID </th>
 			<th> ProbemID </th>
 			<th> File </th>
@@ -119,12 +141,11 @@
 		</tr>
 		<#list submissions as submission>
 			<tr>
-			     <td>${submission.weekNo}</td>
+			     <td>${submission.creationTime}</td>
 			     <td>${submission.userId}</td>
                  <td>${submission.problemId}</td>
-                 <td><a href = "http://localhost:8080/user/${submission.userId}/${submission.weekNo}/download ">${submission.fileName}</td>
+                 <td><a href = "http://localhost:8080/user/${submission.userId}/${submission.problemId}/download ">${submission.fileName}</td>
                  <td>${submission.status?c}</td>
-                 <td>${submission.creationTime}</td>
                  <td>${submission.score}</td>
 
 			</tr>
